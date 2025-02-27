@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from '../../01-app/redux/store';
-import { updateProfile } from "../../01-app/redux/slices/authSlice";
+import { updateProfile } from "../../01-app/redux/slices/userSlice";
 // Плавное колебание элементов
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -40,6 +40,7 @@ const ProfileContainer = styled.div`
   position: relative;
   padding: 40px;
   border-radius: 20px;
+  height: 100vh;
   overflow: hidden;
 `;
 

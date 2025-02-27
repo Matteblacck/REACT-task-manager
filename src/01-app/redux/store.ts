@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from './slices/authSlice.ts';
-import userReducer from './slices/userSlice.ts';
+import authReducer from './slices/userSlice.ts';
+import boardsReducer from './slices/boardsSlice.ts';
 
 export const store = configureStore({
     reducer: {
         auth: authReducer, // добавляем слайс для аутентификации
-        user: userReducer,
+        boards: boardsReducer, // добавляем слайс для досок
     }
 })
 

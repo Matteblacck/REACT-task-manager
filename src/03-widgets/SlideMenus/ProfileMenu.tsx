@@ -1,15 +1,20 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { FaTimes } from 'react-icons/fa';
-import Button from '../../06-shared/Button';
-import StyledLink from '../../06-shared/StyledLink';
-import { FaUser } from 'react-icons/fa';
+import { FaTimes, FaUser } from "react-icons/fa";
+import Button from "../../06-shared/Button";
+import StyledLink from "../../06-shared/StyledLink";
+import { RootState } from "../../01-app/redux/store"; // Подключаем тип стора
+
 interface ProfileMenuProps {
   isOpen: boolean;
   onClose?: () => void;
 }
 
-// Стили для оверлея
+interface UserProfile {
+  name: string;
+  email: string;
+}
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
@@ -18,12 +23,12 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  opacity: ${props => (props.$isOpen ? '1' : '0')};
-  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
+  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
+  pointer-events: ${(props) => (props.$isOpen ? "auto" : "none")};
   transition: opacity 0.3s ease-in-out;
   z-index: 999;
 `;
-// Стили для меню
+
 const MenuWrapper = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
@@ -32,16 +37,17 @@ const MenuWrapper = styled.div<{ $isOpen: boolean }>`
   width: 350px;
   border-radius: 20px;
   background: #fff;
-  transform: translateX(${props => (props.$isOpen ? '0' : '100%')});
-  opacity: ${props => (props.$isOpen ? '1' : '0')};
+  transform: translateX(${(props) => (props.$isOpen ? "0" : "100%")});
+  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
   transition: transform 0.4s ease-out, opacity 0.3s ease-in-out;
   padding: 20px;
   border-left: 2px solid #d2d1d1;
   z-index: 1000;
-  box-shadow: ${props => (props.$isOpen ? '-5px 0 15px rgba(0, 0, 0, 0.1)' : 'none')};
-  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
+  box-shadow: ${(props) =>
+    props.$isOpen ? "-5px 0 15px rgba(0, 0, 0, 0.1)" : "none"};
+  pointer-events: ${(props) => (props.$isOpen ? "auto" : "none")};
 `;
-// Стили для заголовка меню
+
 const MenuHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -53,7 +59,6 @@ const MenuHeader = styled.div`
   border-bottom: 2px solid #d2d1d1;
 `;
 
-// Стили для кнопки закрытия
 const CloseButton = styled(Button)`
   border: none;
   background: none;
@@ -65,7 +70,6 @@ const CloseButton = styled(Button)`
   }
 `;
 
-// Стили для содержимого меню
 const MenuContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -77,32 +81,48 @@ const MenuElement = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
 export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
-  const user = useSelector((state: { auth: { user: {profile: { name: string; email: string }} } }) => state.auth.user.profile);
+  const user = useSelector((state: RootState) => state.auth.user?.profile) as
+    | UserProfile
+    | undefined;
+
+  // Закрытие меню по клавише "Escape"
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose?.();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <>
-      {/* Оверлей для закрытия меню */}
       <Overlay $isOpen={isOpen} onClick={onClose} />
 
-      {/* Меню */}
-      <MenuWrapper $isOpen={isOpen}>
+      <MenuWrapper $isOpen={isOpen} role="dialog" aria-hidden={!isOpen}>
         <MenuHeader>
-          <span>{user.name}</span>
-          <CloseButton onClick={onClose}>
+          <span>{user?.name || "Guest"}</span>
+          <CloseButton as="button" onClick={onClose} aria-label="Close profile menu">
             <FaTimes size={18} />
           </CloseButton>
         </MenuHeader>
 
-        {/* Содержимое меню */}
         <MenuContent>
-            <StyledLink to='/profile' onClick={onClose}> 
+          <StyledLink to="/profile" onClick={onClose}>
             <MenuElement>
-                <FaUser size={15} /> {/* Иконка с отступом */}  
-                <p>Your profile</p>
+              <FaUser size={15} />
+              <p>Your profile</p>
             </MenuElement>
-            
-            </StyledLink>
+          </StyledLink>
         </MenuContent>
       </MenuWrapper>
     </>

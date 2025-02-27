@@ -3,7 +3,7 @@ import './App.css';
 import Header from '../03-widgets/Header/Header';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from './redux/slices/authSlice';
+import { loginSuccess } from './redux/slices/userSlice';
 import { AppDispatch } from './redux/store';
 
 const App = () => {

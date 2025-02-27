@@ -6,7 +6,7 @@ import {
     loginStart, 
     loginSuccess, 
     loginFailure 
-} from '../01-app/redux/slices/authSlice';
+} from '../01-app/redux/slices/userSlice';
 
 // Фейковые данные для регистрации и логина
 const fakeUser = { 
