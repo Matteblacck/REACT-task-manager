@@ -1240,7 +1240,7 @@ background-color: transparent;
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background: #f5f5f5; // Светлый фон для контраста
+  background: white; // Светлый фон для контраста
 `,iN=Q.div`
   display: flex;
   overflow-x: auto;
