@@ -16,7 +16,7 @@ export const HeaderContainer = styled.div`
   z-index: 1000;
   padding: 15px 30px;
   border-bottom: 1px solid #b4b2b2;
-  margin-bottom: 100px;
+
 `;
 
 export default function Header(){
@@ -31,6 +31,7 @@ export default function Header(){
         <Unauthorised/>
         )     
         }
+        
         </>
         
     )

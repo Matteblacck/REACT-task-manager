@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React, { forwardRef } from 'react';
 
 // Стилизация кнопки
 const StyledButton = styled.button`
@@ -29,6 +30,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-export default function Button({ children, ...props }: ButtonProps) {
-  return <StyledButton {...props}>{children}</StyledButton>;
-}
+// Обертываем компонент в forwardRef
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, ...props }, ref) => {
+  return (
+    <StyledButton ref={ref} {...props}>
+      {children}
+    </StyledButton>
+  );
+});
+
+export default Button;

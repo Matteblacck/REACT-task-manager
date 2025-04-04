@@ -6,8 +6,10 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileMenu from '../SlideMenus/ProfileMenu';
 import { useState } from 'react';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaBars } from 'react-icons/fa';
 import styled from'styled-components';
+import SideMenu from '../SlideMenus/SideMenu';
+
 // Стилизованный компонент для иконки
 const StyledUserIcon = styled(FaUser)`
   color: black; /* Цвет по умолчанию */
@@ -19,6 +21,7 @@ const StyledUserIcon = styled(FaUser)`
 `;
 export default function Authorised() {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
     const location = useLocation();
 
     const getPageTitle = (path: string) => {
@@ -27,6 +30,8 @@ export default function Authorised() {
                 return 'Dashboard';
             case '/profile':
                 return 'Profile';
+            case '/boards':
+                return 'Boards'
             default:
                 return 'Task Manager';
         }
@@ -35,6 +40,9 @@ export default function Authorised() {
     const handleProfileMenuOpen = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen); // Переключаем состояние меню
     }
+    const handleSlideMenuOpen = () => {
+        setIsSlideMenuOpen(!isSlideMenuOpen); // Переключаем состояние меню
+    }
 
     const pageTitle = getPageTitle(location.pathname);
     const isAuthenticated = useSelector((state: { auth: { isAuthenticated: boolean } }) => state.auth.isAuthenticated);
@@ -42,6 +50,12 @@ export default function Authorised() {
     return (
         <>
             <HeaderContainer>
+                <div className='d-flex align-items-center gap-2'>
+                <div className='d-flex gap-1'>
+                    <Button onClick={handleSlideMenuOpen}>
+                        <FaBars size={20} />
+                    </Button>
+                </div>
                 <div className='d-flex align-items-center gap-1'>
                     <div>
                         <Link to={isAuthenticated ? '/dashboard' : '/'}>
@@ -50,6 +64,8 @@ export default function Authorised() {
                     </div>
                     <h1 style={{ fontSize: '23px'}}>{pageTitle}</h1>
                 </div>
+                </div>
+
                 <div className='d-flex gap-1'>
                     <Button onClick={handleProfileMenuOpen}>
                         <StyledUserIcon size={20} />
@@ -57,6 +73,7 @@ export default function Authorised() {
                 </div>
             </HeaderContainer>
             <ProfileMenu isOpen={isProfileMenuOpen} onClose={() => setIsProfileMenuOpen(false)} />
+            <SideMenu isOpen={isSlideMenuOpen} onClose={() => setIsSlideMenuOpen(false)} />
         </>
     );
 }

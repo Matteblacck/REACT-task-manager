@@ -5,12 +5,15 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
+
 // Страницы
 import GuestPage from '../02-pages/HomePage/GuestPage.tsx';
 import DashboardPage from '../02-pages/ProtectedRoutes/DashboardPage.tsx';
 import ProfilePage from '../02-pages/ProtectedRoutes/ProfilePage.tsx';
 import App from './App';
 import { ProtectedRoute } from '../06-shared/ProtectedRoute.tsx';
+import BoardsPage from '../02-pages/BoardsPage.tsx';
+import BoardPage from '../02-pages/BoardPage/BoardPage.tsx';
 
 // Маршруты
 const router = createBrowserRouter([
@@ -26,7 +29,9 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,  // Защищенные маршруты
         children: [
           { path: '/dashboard', element: <DashboardPage /> }, // Страница для авторизованных пользователей
-          { path: '/profile', element: <ProfilePage />}
+          { path: '/profile', element: <ProfilePage />},
+          { path: '/boards', element: <BoardsPage />},
+          { path: '/boards/board/:id', element: <BoardPage/>}
         ],
       },
     ],
@@ -38,5 +43,6 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
+    
   </StrictMode>,
 );

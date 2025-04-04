@@ -238,9 +238,10 @@ table {
 
 
  html, body {
-  font-family: 'Poppins';
+  font-family: 'Manrope';
   color:black;
-  font-weight: 500;
+  font-weight: 600;
   height: 100%;
   margin: 0;
+  
 }

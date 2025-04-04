@@ -34,14 +34,13 @@ const spin = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 `;
-
 // Стилизованные компоненты
 const ProfileContainer = styled.div`
+  height: calc(100vh - 100px);
   position: relative;
   padding: 40px;
   border-radius: 20px;
-  height: 100vh;
-  overflow: hidden;
+
 `;
 
 const BackgroundElement = styled.div`
@@ -305,13 +304,15 @@ export default function ProfilePage() {
     setIsEditingAbout(false);
   }
   return (
+      
+    
     <ProfileContainer className="container">
-      <Circle />
+      
+    <Circle />
       <LargeCircle />
       <Line />
       <Wave />
       <Arc />
-
       {/* Личная информация */}
       <ProfileSection id='personalInfo'>
       <SectionTitleWrapper>

@@ -12,8 +12,8 @@ export const ProtectedRoute = () => {
   // Если авторизован, показываем дочерние компоненты
   return (
   <>
-  <div style={{marginTop:'100px'}}>
-  <Outlet />
+  <div style={{paddingTop:'70px'}}>
+    <Outlet />
   </div>
     
   </>

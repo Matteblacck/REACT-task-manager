@@ -8,35 +8,44 @@ import {
     loginFailure 
 } from '../01-app/redux/slices/userSlice';
 
-// Фейковые данные для регистрации и логина
-const fakeUser = { 
-    name: 'matteblack', 
-    email: 'test@example.com', 
-    password: 'Test1234',
+// Фейковые данные для тестирования
+const fakeUser = {
+    name: 'Test User',
+    email: 'test@example.com',
+    password: 'password123'
 };
 
 // Регистрация
 export const signupUser = async (
-    userData: { name: string; email: string; password: string, telephone?: string }, 
+    userData: { name: string; email: string; password: string }, 
     dispatch: AppDispatch
 ) => {
     try {
         dispatch(registerStart());
 
+        // Имитация задержки сети
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Проверяем, совпадают ли данные с фейковыми
         if (userData.email === fakeUser.email && userData.password === fakeUser.password) {
-            const fakeResponse = { 
-                data: { 
-                    token: { email: userData.email, password: userData.password }, 
-                    profile: { name: fakeUser.name, email: userData.email, telephone: userData.telephone || '' }
-                } 
+            const response = {
+                token: {
+                    email: userData.email,
+                    password: userData.password
+                },
+                profile: {
+                    name: userData.name,
+                    email: userData.email,
+                    telephone: '',
+                    about: ''
+                }
             };
 
-            dispatch(registerSuccess(fakeResponse.data));
-            return fakeResponse.data;
+            dispatch(registerSuccess(response));
+            return response;
         } else {
             throw new Error('Invalid registration data');
         }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         dispatch(registerFailure());
         throw new Error(error.message || 'Registration failed');
@@ -51,20 +60,29 @@ export const loginUser = async (
     try {
         dispatch(loginStart());
 
+        // Имитация задержки сети
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Проверяем, совпадают ли данные с фейковыми
         if (credentials.email === fakeUser.email && credentials.password === fakeUser.password) {
-            const fakeResponse = { 
-                data: { 
-                    token: { email: credentials.email, password: credentials.password }, 
-                    profile: { name: fakeUser.name, email: credentials.email, telephone: '' }
-                } 
+            const response = {
+                token: {
+                    email: credentials.email,
+                    password: credentials.password
+                },
+                profile: {
+                    name: fakeUser.name,
+                    email: credentials.email,
+                    telephone: '',
+                    about: ''
+                }
             };
 
-            dispatch(loginSuccess(fakeResponse.data));
-            return fakeResponse.data;
+            dispatch(loginSuccess(response));
+            return response;
         } else {
             throw new Error('Invalid login credentials');
         }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         dispatch(loginFailure());
         throw new Error(error.message || 'Login failed');

@@ -17,7 +17,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <>
-      <Header />
+      <Header/>
       <Outlet />
     </>
   );

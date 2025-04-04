@@ -1,19 +1,15 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { FaTimes, FaUser } from "react-icons/fa";
+import { FaTimes,FaHome } from "react-icons/fa";
 import Button from "../../06-shared/Button";
 import StyledLink from "../../06-shared/StyledLink";
-import { RootState } from "../../01-app/redux/store"; // Подключаем тип стора
+import logo from '../../assets/logo.svg'
+import boards from '../../assets/boards.svg';
 
-interface ProfileMenuProps {
+
+interface SlideMenuProps {
   isOpen: boolean;
   onClose?: () => void;
-}
-
-interface UserProfile {
-  name: string;
-  email: string;
 }
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
@@ -32,19 +28,19 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
 const MenuWrapper = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0; /* Меню теперь слева */
   height: 100vh;
   width: 350px;
-  border-radius: 20px;
+  border-radius: 0 20px 20px 0; /* Скругляем только правый угол */
   background: #fff;
-  transform: translateX(${(props) => (props.$isOpen ? "0" : "100%")});
+  transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")}); /* Двигаем влево */
   opacity: ${(props) => (props.$isOpen ? "1" : "0")};
   transition: transform 0.4s ease-out, opacity 0.3s ease-in-out;
   padding: 20px;
-  border-left: 2px solid #d2d1d1;
+  border-right: 2px solid #d2d1d1; /* Граница справа */
   z-index: 1000;
   box-shadow: ${(props) =>
-    props.$isOpen ? "-5px 0 15px rgba(0, 0, 0, 0.1)" : "none"};
+    props.$isOpen ? "5px 0 15px rgba(0, 0, 0, 0.1)" : "none"};
   pointer-events: ${(props) => (props.$isOpen ? "auto" : "none")};
 `;
 
@@ -56,7 +52,6 @@ const MenuHeader = styled.div`
   margin-bottom: 20px;
   font-size: 1.2rem;
   color: black;
-  border-bottom: 2px solid #d2d1d1;
 `;
 
 const CloseButton = styled(Button)`
@@ -74,12 +69,14 @@ const MenuContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  
 `;
 
 const MenuElement = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  
 `;
 const StyledLinkk = styled(StyledLink)`
 padding: 5px 5px 5px 10px;
@@ -88,10 +85,8 @@ border-radius: 10px;
     background-color: #d2d1d1;
   }
 `
-export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
-  const user = useSelector((state: RootState) => state.auth.user?.profile) as
-    | UserProfile
-    | undefined;
+
+export default function SideMenu({ isOpen, onClose }: SlideMenuProps) {
 
   // Закрытие меню по клавише "Escape"
   useEffect(() => {
@@ -116,17 +111,25 @@ export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {
 
       <MenuWrapper $isOpen={isOpen} role="dialog" aria-hidden={!isOpen}>
         <MenuHeader>
-          <span>{user?.name || "Guest"}</span>
+          <span><img src={logo} width='40'></img></span>
           <CloseButton as="button" onClick={onClose} aria-label="Close profile menu">
             <FaTimes size={18} />
           </CloseButton>
         </MenuHeader>
 
         <MenuContent>
-          <StyledLinkk to="/profile" onClick={onClose}>
+            <StyledLinkk to="/dashboard" onClick={onClose} >
+                <MenuElement >
+                    <FaHome size='24'/>
+                    <div >
+                        <p>Home</p>
+                    </div>
+                </MenuElement>
+          </StyledLinkk>
+          <StyledLinkk to="/boards" onClick={onClose}>
             <MenuElement>
-              <FaUser size={15} />
-              <p>Your profile</p>
+                <img src={boards} alt="" />
+                <p>Boards</p>
             </MenuElement>
           </StyledLinkk>
         </MenuContent>
