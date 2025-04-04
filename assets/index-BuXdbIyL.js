@@ -1259,7 +1259,7 @@ background-color: transparent;
   flex-shrink: 0;
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.9); // Полупрозрачный фон для тулбара
+  background: transparent; // Полупрозрачный фон для тулбара
   backdrop-filter: blur(5px); // Размытие для эффекта стекла
 `,oN=Q(Yt)`
   &:hover {
