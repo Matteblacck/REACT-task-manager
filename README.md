@@ -1,13 +1,12 @@
-Task Manager
+## **Task Manager**
 
 [Live Demo](https://matteblacck.github.io/REACT-task-manager/)
 
-⸻
+
 ## **Project Overview**
 
 A task management web application built with React, TypeScript, and Vite, designed around a board-based workflow (similar to Trello). It provides a smooth and responsive user experience with a focus on usability and customization.
 
-⸻
 
 ## **Tech Stack**
 
@@ -19,7 +18,6 @@ A task management web application built with React, TypeScript, and Vite, design
 - **Axios** – for API communication  
 - **Drag and Drop API / react-beautiful-dnd** – for intuitive task movement  
 
-⸻
 
 ## **Features**
 
