@@ -1,6 +1,7 @@
 ## **Task Manager**
 
 [Live Demo](https://matteblacck.github.io/REACT-task-manager/)
+(to log in use email: test@example.com and password: pawwsord123)
 
 
 ## **Project Overview**
