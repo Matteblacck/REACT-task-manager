@@ -18,6 +18,5 @@ Features
 	•	Board Management: Create, edit, and delete boards to organize workspaces
 	•	Draggable Cards: Intuitive drag-and-drop support for tasks across columns
 	•	Customizable Cards: Add descriptions, labels, deadlines, and more to each card
-	•	Responsive Design: Mobile-friendly interface built with Bootstrap
 	•	Persistent State: Boards and tasks are saved and synced with the backend
 	•	Clean Architecture: Feature-sliced design for scalability and maintainability
