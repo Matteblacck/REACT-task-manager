@@ -11,11 +11,13 @@ import {
   createTransform
 } from 'redux-persist';
 import { combineReducers } from "redux";
-import storage from'redux-persist/lib/storage';
+import storage  from "redux-persist/lib/storage";
 import authReducer from './slices/userSlice';
 import boardsReducer from './slices/boardsSlice';
 
+// 1. Кастомный storage с правильной сериализацией
 
+// 2. Transform для обработки данных
 const readableTransform = createTransform(
   // inbound - сохраняем как есть (Redux Persist сам сериализует)
   (state) => state,
@@ -31,10 +33,12 @@ const readableTransform = createTransform(
   { whitelist: ['auth', 'boards'] }
 );
 
+// 3. Конфигурация persist (ВКЛЮЧАЕМ сериализацию)
 const authPersistConfig = {
   key: 'auth',
   storage,
   transforms: [readableTransform],
+
 };
 
 const boardsPersistConfig = {
@@ -43,11 +47,13 @@ const boardsPersistConfig = {
   transforms: [readableTransform],
 };
 
+// 4. Создаем root reducer
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   boards: persistReducer(boardsPersistConfig, boardsReducer),
 });
 
+// 5. Создаем store
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
