@@ -185,7 +185,7 @@ interface CardProps {
   title: string;
   id: string;
   isAdding: boolean;
-  toggleAdding: (column: string) => void;
+  toggleAdding: (cardId: string) => void;
 }
 
 export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
@@ -201,22 +201,21 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
   const [newItem, setNewItem] = useState("");
   const handleAdd = () => {
     if (!newItem.trim() || !board || !boardId) return;
-  
+
     const newElement = {
-      id: Date.now().toString(36), // Генерация уникального ID
+      id: Date.now().toString(36), // Генерируем уникальный ID
       text: newItem,
     };
-  
+
     const updatedCards = board.cards.map((c) =>
-      c.id === id // Сравнение с ID карточки, а не её именем
+      c.id === id // ← Исправлено
         ? { ...c, elements: [...c.elements, newElement] }
         : c
     );
-  
     dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-  
+
     setNewItem("");
-    toggleAdding(id); // Изменить с title на id
+    toggleAdding(id);
   };
 
   //--delete cardElements
@@ -228,7 +227,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
 
     setTimeout(() => {
       const updatedCards = board.cards.map((c) =>
-        c.name === title
+        c.id === id // ← Исправлено
           ? { ...c, elements: c.elements.filter((item) => item.id !== taskId) }
           : c
       );
@@ -259,7 +258,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
     if (!board || !boardId || !selectedTask) return;
 
     const updatedCards = board.cards.map((c) =>
-      c.name === title
+      c.id === id
         ? {
             ...c,
             elements: c.elements.map((item) =>
@@ -300,7 +299,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
     }
 
     const updatedCards = board.cards.map((c) =>
-      c.name === title ? { ...c, name: newCardName.trim() } : c
+      c.id === id ? { ...c, name: newCardName.trim() } : c
     );
 
     dispatch(updateBoardCards({ boardId, cards: updatedCards }));
@@ -331,7 +330,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
         </div>
       </div>
 
-      <Droppable droppableId={title}>
+      <Droppable droppableId={id}>
         {(provided) => (
           <TasksList ref={provided.innerRef} {...provided.droppableProps}>
             {card?.elements.map((item, index) => (
@@ -382,7 +381,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
             <StyledButton onClick={handleAdd}>+ Add</StyledButton>
           </div>
           <div className="col-4">
-            <StyledButton onClick={() => toggleAdding(title)}>
+            <StyledButton onClick={() => toggleAdding(id)}>
               Cancel
             </StyledButton>
           </div>
@@ -390,7 +389,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
       ) : (
         <StyledButton
           onClick={() => {
-            toggleAdding(title);
+            toggleAdding(id);
             setNewItem("");
           }}
         >
@@ -410,3 +409,4 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
     </CardColumn>
   );
 }
+

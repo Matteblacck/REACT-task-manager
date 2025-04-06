@@ -191,10 +191,10 @@ export default function BoardPage() {
     }
   
     const sourceColumnIndex = board.cards.findIndex(
-      (c) => c.id === source.droppableId // Меняем с name на id
+      (c) => c.id === source.droppableId
     );
     const destinationColumnIndex = board.cards.findIndex(
-      (c) => c.id === destination.droppableId // Меняем с name на id
+      (c) => c.id === destination.droppableId
     );
   
     if (sourceColumnIndex === -1 || destinationColumnIndex === -1) return;
@@ -279,8 +279,8 @@ export default function BoardPage() {
               >
                 {allCards.map((card, index) => (
                   <Draggable
-                    key={card.id} // Используем card.id для уникальности
-                    draggableId={card.id} // Убедитесь, что draggableId уникален
+                    key={card.id}
+                    draggableId={card.id}
                     index={index}
                   >
                     {(provided) => (
@@ -297,12 +297,13 @@ export default function BoardPage() {
                         }}
                       >
                         <Card
-                          key={card.id} // Используем card.id для уникальности
+                          key={card.id}
                           title={card.name}
-                          id={card.id} // Убедитесь, что передаете id карточки
-                          isAdding={!!addingColumns[card.name]}
+                          id = {card.id}
+                          isAdding={!!addingColumns[card.id]}
                           toggleAdding={toggleAdding}
                         />
+                        
                       </div>
                     )}
                   </Draggable>

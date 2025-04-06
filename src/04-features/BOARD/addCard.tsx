@@ -13,19 +13,8 @@ export const useAddCard = ({ boardId, currentCards }: UseAddCardParams) => {
   const dispatch = useDispatch<AppDispatch>();
 
   return useCallback(() => {
-    // Генерируем уникальный ID для новой карточки
-    const generateUniqueId = () => {
-      let newId = Date.now().toString();
-      
-      // Проверяем, что ID уникален
-      while (currentCards.some(card => card.id === newId)) {
-        newId = (parseInt(newId) + 1).toString(); // Генерация нового ID на основе текущего
-      }
-      
-      return newId;
-    };
 
-    const newId = generateUniqueId();
+    const newId = Date.now().toString();
     const newCard = {
       id: newId,      // Уникальный ID
       name: "New board", // Имя всегда "New board"
