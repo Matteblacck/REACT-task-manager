@@ -105,13 +105,13 @@ const Triangle = styled(BackgroundElement)`
 
 // Стили для контейнера
 const Container = styled.div`
-  padding: 5px 40px 20px 40px;
+  height: calc(100vh - 71px); // где 60px — высота шапки
+  padding: 5px 20px 20px 20px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   position: relative;
   overflow: hidden;
-  background: #f5f5f5; // Светлый фон для контраста
+  background: white;
 `;
 
 // Контейнер с горизонтальным скроллом
@@ -135,7 +135,7 @@ const Toolbar = styled.div`
   flex-shrink: 0;
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.9); // Полупрозрачный фон для тулбара
+  background: transparent; // Полупрозрачный фон для тулбара
   backdrop-filter: blur(5px); // Размытие для эффекта стекла
 `;
 

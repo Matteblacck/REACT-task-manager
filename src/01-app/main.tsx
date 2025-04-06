@@ -36,7 +36,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-], { basename: '/TaskManager' });
+], {basename: import.meta.env.BASE_URL }
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
