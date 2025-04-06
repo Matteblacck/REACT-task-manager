@@ -1,40 +1,63 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // localStorage по умолчанию
-
+import { 
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  createTransform
+} from 'redux-persist';
+import { combineReducers } from "redux";
+import storage from'redux-persist/lib/storage';
 import authReducer from './slices/userSlice';
 import boardsReducer from './slices/boardsSlice';
 
-import { combineReducers } from "redux";
 
-// 1. Комбинируем редюсеры
-const rootReducer = combineReducers({
-    auth: authReducer,
-    boards: boardsReducer,
-});
+const readableTransform = createTransform(
+  // inbound - сохраняем как есть (Redux Persist сам сериализует)
+  (state) => state,
+  // outbound - парсим данные
+  (raw) => {
+    try {
+      return typeof raw === 'string' ? JSON.parse(raw) : raw;
+    } catch (e) {
+      console.error('Failed to parse stored data', e);
+      return null;
+    }
+  },
+  { whitelist: ['auth', 'boards'] }
+);
 
-// 2. Конфиг persist
-const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['auth'], // сохраняем только auth (или добавь boards если надо)
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  transforms: [readableTransform],
 };
 
-// 3. Оборачиваем в persistReducer
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const boardsPersistConfig = {
+  key: 'boards',
+  storage,
+  transforms: [readableTransform],
+};
 
-// 4. Создаём store с middleware
-export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-            },
-        }),
+const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducer),
+  boards: persistReducer(boardsPersistConfig, boardsReducer),
 });
 
-// 5. Экспорт для persist
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
 export const persistor = persistStore(store);
 
 // Типы

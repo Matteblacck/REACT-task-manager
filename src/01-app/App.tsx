@@ -1,25 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import Header from '../03-widgets/Header/Header';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from './redux/slices/userSlice';
-import { AppDispatch } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from './redux/store'; // Экспортируешь persistor из store
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-
-    if (user) {
-      dispatch(loginSuccess(JSON.parse(user)));
-    }
-  }, [dispatch]);
   return (
-    <>
-      <Header/>
+    <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+      <Header />
       <Outlet />
-    </>
+    </PersistGate>
   );
 };
 
