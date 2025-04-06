@@ -39,11 +39,15 @@ const router = createBrowserRouter([
 ], {basename: import.meta.env.BASE_URL }
 );
 
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from './redux/store.ts'; // persistor — обязательно экспортируй из store
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
-    
-  </StrictMode>,
+  </StrictMode>
 );
