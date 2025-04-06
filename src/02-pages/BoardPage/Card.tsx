@@ -183,39 +183,40 @@ const TitleInput = styled(Input)`
 
 interface CardProps {
   title: string;
+  id: string;
   isAdding: boolean;
   toggleAdding: (column: string) => void;
 }
 
-export default function Card({ title, isAdding, toggleAdding }: CardProps) {
+export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { id: boardId } = useParams();
   const board = useSelector((state: { boards: { boards: Board[] } }) =>
     state.boards.boards.find((b) => b.id === boardId)
   );
-  const card = board?.cards?.find((c) => c.name === title);
+  const card = board?.cards?.find((c) => c.id === id);
 
   //--adding card elements
   const [newItem, setNewItem] = useState("");
   const handleAdd = () => {
     if (!newItem.trim() || !board || !boardId) return;
-
+  
     const newElement = {
-      id: Date.now().toString(36), // Генерируем уникальный ID
+      id: Date.now().toString(36), // Генерация уникального ID
       text: newItem,
     };
-
+  
     const updatedCards = board.cards.map((c) =>
-      c.name === title
-        ? { ...c, elements: [...c.elements, newElement] } // добавляем объект целиком
+      c.id === id // Сравнение с ID карточки, а не её именем
+        ? { ...c, elements: [...c.elements, newElement] }
         : c
     );
-
+  
     dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-
+  
     setNewItem("");
-    toggleAdding(title);
+    toggleAdding(id); // Изменить с title на id
   };
 
   //--delete cardElements

@@ -1,14 +1,10 @@
 import Button from "../../06-shared/Button";
 import styled, { keyframes } from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
-  Board,
-  updateBoard,
   updateBoardCards,
 } from "../../01-app/redux/slices/boardsSlice";
 import Card from "./Card";
-import { useState } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -17,7 +13,11 @@ import {
 } from "@hello-pangea/dnd";
 import { AppDispatch } from "../../01-app/redux/store";
 import Input from "../../06-shared/Input";
-
+import { useAddCard } from "../../04-features/BOARD/addCard";
+import { useBoard } from "../../04-features/BOARD/useBoard";
+import { useBoardNameEdit } from "../../04-features/BOARD/useBoardNameEdit";
+import { useCardElements } from "../../04-features/BOARD/card-features/useCardElements";
+import { useCards } from "../../04-features/BOARD/card-features/useCards";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -155,41 +155,28 @@ const TitleInput = styled(Input)`
 `;
 
 export default function BoardPage() {
-  //redux, params
-  const { id } = useParams();
-  const board = useSelector((state: { boards: { boards: Board[] } }) =>
-    state.boards.boards.find((b) => b.id === id)
-  );
-  const [newTitle, setNewTitle] = useState(board?.name || "");
-  const [isTitleEditing, setTitleEditing] = useState(false);
-
+  //получение доски по id
+  const board = useBoard()
   const dispatch = useDispatch<AppDispatch>();
 
-  const [addingColumns, setAddingColumns] = useState<{
-    [key: string]: boolean;
-  }>({});
 
-  if (!board) {
-    return <div>Board not found</div>;
-  }
+  
 
-  const allCards = [...board.cards];
-
-  board.cards.forEach((card) => {
-    const existingCardIndex = allCards.findIndex((c) => c.name === card.name);
-    if (existingCardIndex !== -1) {
-      allCards[existingCardIndex] = {
-        ...allCards[existingCardIndex],
-        elements: [...card.elements],
-      };
-    } else {
-      allCards.push({ ...card, elements: [...card.elements] });
-    }
+  const handleAddCard = useAddCard({ 
+    boardId: board.id,
+    currentCards: board.cards 
   });
-
-  const toggleAdding = (column: string) => {
-    setAddingColumns((prev) => ({ ...prev, [column]: !prev[column] }));
-  };
+  const {
+    newName,
+    isNameEditing: isTitleEditing,
+    handleDoubleClick,
+    handleBlur,
+    handleInputChange: handleInputChange,
+    handleKeyDown,
+  } = useBoardNameEdit(board?.name || "", board);
+  
+  const { allCards } = useCards(board);
+  const { addingColumns, toggleAdding } = useCardElements();
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
@@ -204,10 +191,10 @@ export default function BoardPage() {
     }
   
     const sourceColumnIndex = board.cards.findIndex(
-      (c) => c.name === source.droppableId
+      (c) => c.id === source.droppableId // Меняем с name на id
     );
     const destinationColumnIndex = board.cards.findIndex(
-      (c) => c.name === destination.droppableId
+      (c) => c.id === destination.droppableId // Меняем с name на id
     );
   
     if (sourceColumnIndex === -1 || destinationColumnIndex === -1) return;
@@ -246,43 +233,8 @@ export default function BoardPage() {
   
     dispatch(updateBoardCards({ boardId: board.id, cards: updatedCards }));
   };
-  const handleDoubleClick = () => {
-    setNewTitle(board.name);
-    setTitleEditing(true);
-  };
 
-  const handleBlur = () => {
-    const updatedTitle = newTitle.trim() || "New board"; // Если пустое — заменяем
-    setNewTitle(updatedTitle);
-  
-    if (updatedTitle !== board.name) {
-      dispatch(updateBoard({ ...board, name: updatedTitle }));
-    }
-  
-    setTitleEditing(false);
-  };
-  
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(e.target.value);
-  };
-  
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleBlur();
-    }
-  };
 
-  const handleAddCard = () => {
-      const newId = Date.now().toString(); // Convert to string for compatibility
-      const newColumn = {
-        id: newId,
-        name: `New card`,
-        elements: [],
-      };
-
-      const updatedCards = [...board.cards, newColumn];
-      dispatch(updateBoardCards({ boardId: board.id, cards: updatedCards }));
-    };
 
   return (
     <Container>
@@ -297,7 +249,7 @@ export default function BoardPage() {
       <Toolbar>
         {isTitleEditing ? (
           <TitleInput
-            value={newTitle}
+            value={newName}
             autoFocus
             onBlur={handleBlur}
             onChange={handleInputChange}
@@ -327,8 +279,8 @@ export default function BoardPage() {
               >
                 {allCards.map((card, index) => (
                   <Draggable
-                    key={card.id}
-                    draggableId={card.id}
+                    key={card.id} // Используем card.id для уникальности
+                    draggableId={card.id} // Убедитесь, что draggableId уникален
                     index={index}
                   >
                     {(provided) => (
@@ -345,11 +297,12 @@ export default function BoardPage() {
                         }}
                       >
                         <Card
+                          key={card.id} // Используем card.id для уникальности
                           title={card.name}
+                          id={card.id} // Убедитесь, что передаете id карточки
                           isAdding={!!addingColumns[card.name]}
                           toggleAdding={toggleAdding}
                         />
-                        
                       </div>
                     )}
                   </Draggable>
