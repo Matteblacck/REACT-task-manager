@@ -1,7 +1,8 @@
 // features/board/hooks/useBoard.ts
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Board } from "../../01-app/redux/slices/boardsSlice";
+import { Board } from "../../05-entities/boardInterfaces";
+
 
 export const useBoard = () => {
   const { id } = useParams();

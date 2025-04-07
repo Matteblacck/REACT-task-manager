@@ -1,18 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Board, Card } from "../../../05-entities/boardInterfaces";
 
 // Интерфейс доски
-export interface CardElement {
-  id: string;
-  text: string;
-  description?: string;
-  priority?: string;
-}
 
-export interface Card {
-  id: string;
-  name: string;
-  elements: CardElement[]; // или `Task[]`, если нужны более сложные задачи
-}
 
 export const defaultCards: Card[] = [
   { id: "1", name: "To Do", elements: [] },
@@ -20,13 +10,7 @@ export const defaultCards: Card[] = [
   { id: "3", name: "Done", elements: [] },
 ];
 
-export interface Board {
-  id: string;
-  name: string;
-  members: { id: string; role: string }[];
-  createdAt: string;
-  cards: Card[];
-}
+
 
 // Состояние для досок
 interface BoardsState {

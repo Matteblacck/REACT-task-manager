@@ -4,12 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBoardCards } from "../../01-app/redux/slices/boardsSlice";
 import { useParams } from "react-router-dom";
-import { Board } from "../../01-app/redux/slices/boardsSlice";
 import { AppDispatch } from "../../01-app/redux/store";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import ContextMenu from "../../03-widgets/ContextMenus/CardContextMenu";
 import Input from "../../06-shared/Input";
 import CardElementModal from "../../03-widgets/modals/CardElementModal/CardElementModal";
+import { Board } from "../../05-entities/boardInterfaces";
 
 const CrossIcon = () => (
   <svg

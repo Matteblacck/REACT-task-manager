@@ -155,17 +155,16 @@ const TitleInput = styled(Input)`
 `;
 
 export default function BoardPage() {
-  //получение доски по id
   const board = useBoard()
   const dispatch = useDispatch<AppDispatch>();
 
-
-  
-
+  //add card
   const handleAddCard = useAddCard({ 
     boardId: board.id,
     currentCards: board.cards 
   });
+
+  //edit board name
   const {
     newName,
     isNameEditing: isTitleEditing,
@@ -175,9 +174,11 @@ export default function BoardPage() {
     handleKeyDown,
   } = useBoardNameEdit(board?.name || "", board);
   
+  //card actions
   const { allCards } = useCards(board);
   const { addingColumns, toggleAdding } = useCardElements();
 
+  //drag n drop
   const onDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
     if (!destination) return;

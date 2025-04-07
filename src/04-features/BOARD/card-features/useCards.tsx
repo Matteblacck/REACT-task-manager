@@ -1,6 +1,6 @@
 
 import { useMemo } from 'react';
-import { Board } from '../../../01-app/redux/slices/boardsSlice';
+import { Board } from '../../../05-entities/boardInterfaces';
 
 export const useCards = (board: Board) => {
   const allCards = useMemo(() => {
