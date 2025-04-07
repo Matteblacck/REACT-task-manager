@@ -71,7 +71,7 @@ const TaskText = styled.span`
 interface TasksListItemProps {
     $priority?: string; // Приоритет задачи (например, "high", "medium", "low")
   }
-  const TasksListItem = styled.li<TasksListItemProps>`
+const TasksListItem = styled.li<TasksListItemProps>`
   font-size: 15px;
   background-color: white;
   width: 330px;
@@ -184,7 +184,7 @@ const TitleInput = styled(Input)`
 
 
 export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
-  //get current board from redux with useBoard
+  //getting current board from redux with useBoard
   const board = useBoard()
   const boardId = board.id
   const card = board?.cards?.find((c) => c.id === id);
