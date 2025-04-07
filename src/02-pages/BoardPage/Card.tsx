@@ -1,15 +1,15 @@
 import styled, { keyframes } from "styled-components";
 import Button from "../../06-shared/Button";
-import { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateBoardCards } from "../../01-app/redux/slices/boardsSlice";
-import { useParams } from "react-router-dom";
-import { AppDispatch } from "../../01-app/redux/store";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import ContextMenu from "../../03-widgets/ContextMenus/CardContextMenu";
 import Input from "../../06-shared/Input";
 import CardElementModal from "../../03-widgets/modals/CardElementModal/CardElementModal";
-import { Board } from "../../05-entities/boardInterfaces";
+import { useBoard } from "../../04-features/BOARD/useBoard";
+import { CardProps } from "../../05-entities/cardProps";
+import { useCardNameEdit } from "../../04-features/BOARD/card-features/useCardNameEdit";
+import { useCardElementModal } from "../../04-features/BOARD/card-features/useCardElementModal";
+import { useCardElementDelete } from "../../04-features/BOARD/card-features/useCardElementDelete";
+import { useCardElementAdd } from "../../04-features/BOARD/card-features/useCardElementAdd";
 
 const CrossIcon = () => (
   <svg
@@ -181,130 +181,63 @@ const TitleInput = styled(Input)`
   padding: 0;
 `;
 
-interface CardProps {
-  title: string;
-  id: string;
-  isAdding: boolean;
-  toggleAdding: (cardId: string) => void;
-}
+
 
 export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
-  //redux
-  const dispatch = useDispatch<AppDispatch>();
-  const { id: boardId } = useParams();
-  const board = useSelector((state: { boards: { boards: Board[] } }) =>
-    state.boards.boards.find((b) => b.id === boardId)
-  );
+  //get current board from redux with useBoard
+  const board = useBoard()
+  const boardId = board.id
   const card = board?.cards?.find((c) => c.id === id);
 
   //--adding card elements
-  const [newItem, setNewItem] = useState("");
-  const handleAdd = () => {
-    if (!newItem.trim() || !board || !boardId) return;
-
-    const newElement = {
-      id: Date.now().toString(36), // Генерируем уникальный ID
-      text: newItem,
-    };
-
-    const updatedCards = board.cards.map((c) =>
-      c.id === id // ← Исправлено
-        ? { ...c, elements: [...c.elements, newElement] }
-        : c
-    );
-    dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-
-    setNewItem("");
-    toggleAdding(id);
-  };
+  const {
+    newItem,
+    setNewItem,
+    handleAdd,
+  } = useCardElementAdd({
+    board,
+    boardId: board.id,
+    cardId: id,
+    toggleAdding: toggleAdding // Передаем функцию переключения
+  })
 
   //--delete cardElements
-  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
-  const handleDelete = (taskId: string) => {
-    if (!board || !boardId) return;
+  const {
+    taskToDelete,
+    handleDelete
+  } = useCardElementDelete({
+    board,
+    boardId: board.id,
+    cardId: id
+  })
 
-    setTaskToDelete(taskId);
-
-    setTimeout(() => {
-      const updatedCards = board.cards.map((c) =>
-        c.id === id // ← Исправлено
-          ? { ...c, elements: c.elements.filter((item) => item.id !== taskId) }
-          : c
-      );
-
-      dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-
-      setTaskToDelete(null);
-    }, 500);
-  };
   //--cardElementModal
-  const [isCardElementModalOpen, setIsCardElementModalOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<{
-    id: string;
-    text: string;
-  } | null>(null);
-
-  const handleTaskDoubleClick = (task: { id: string; text: string }) => {
-    setSelectedTask(task);
-    setIsCardElementModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsCardElementModalOpen(false);
-    setSelectedTask(null);
-  };
-
-  const handleModalSave = (taskId: string, newDescription: string) => {
-    if (!board || !boardId || !selectedTask) return;
-
-    const updatedCards = board.cards.map((c) =>
-      c.id === id
-        ? {
-            ...c,
-            elements: c.elements.map((item) =>
-              item.id === taskId
-                ? { ...item, description: newDescription }
-                : item
-            ),
-          }
-        : c
-    );
-
-    dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-    handleModalClose();
-  };
+  const { 
+    isCardElementModalOpen, 
+    selectedTask, 
+    handleTaskDoubleClick, 
+    handleModalClose, 
+    handleModalSave 
+  } = useCardElementModal({
+    board,
+    boardId: board.id,
+    cardId: id
+  });
 
   //--editing card name
-  const [isCardNameEditing, setIsCardNameEditing] = useState(false);
-  const [newCardName, setNewCardName] = useState(title);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (isCardNameEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isCardNameEditing]);
-
-  const handleCardNameEditing = () => {
-    setNewCardName(title);
-    setIsCardNameEditing(true);
-  };
-  const handleCardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewCardName(e.target.value);
-  };
-  const handleCardNameSave = () => {
-    if (!board || !boardId || newCardName.trim() === title) {
-      setIsCardNameEditing(false);
-      return;
-    }
-
-    const updatedCards = board.cards.map((c) =>
-      c.id === id ? { ...c, name: newCardName.trim() } : c
-    );
-
-    dispatch(updateBoardCards({ boardId, cards: updatedCards }));
-    setIsCardNameEditing(false);
-  };
+  const { 
+    isCardNameEditing, 
+    newCardName, 
+    inputRef, 
+    handleCardNameEditing, 
+    handleCardNameChange, 
+    handleCardNameSave 
+  } = useCardNameEdit({
+    title,
+    id,
+    boardId: board.id,
+    currentCards: board.cards
+  });
 
   return (
     <CardColumn>

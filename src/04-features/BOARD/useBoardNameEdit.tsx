@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateBoard } from '../../01-app/redux/slices/boardsSlice';
 import { AppDispatch } from '../../01-app/redux/store';
-import { Board } from "../../01-app/redux/slices/boardsSlice";
+import { Board } from "../../05-entities/boardInterfaces";
 
 export const useBoardNameEdit = (initialName: string, board: Board) => {
     const [newName, setNewName] = useState(initialName);
