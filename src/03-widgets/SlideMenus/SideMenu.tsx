@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { FaTimes,FaHome } from "react-icons/fa";
+import { FaTimes,FaHome, FaCog } from "react-icons/fa";
 import Button from "../../06-shared/Button";
 import StyledLink from "../../06-shared/StyledLink";
 import logo from '../../assets/logo.svg'
@@ -131,6 +131,12 @@ export default function SideMenu({ isOpen, onClose }: SlideMenuProps) {
             <MenuElement>
                 <img src={boards} alt="" />
                 <p>Boards</p>
+            </MenuElement>
+          </StyledLinkk>
+          <StyledLinkk to="/settings" onClick={onClose}>
+            <MenuElement>
+                <FaCog size='24'/>
+                <p>Settings</p>
             </MenuElement>
           </StyledLinkk>
         </MenuContent>

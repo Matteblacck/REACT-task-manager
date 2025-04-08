@@ -31,7 +31,9 @@ export default function Authorised() {
             case '/profile':
                 return 'Profile';
             case '/boards':
-                return 'Boards'
+                return 'Boards';
+            case '/settings':
+                return 'Settings'
             default:
                 return 'Task Manager';
         }

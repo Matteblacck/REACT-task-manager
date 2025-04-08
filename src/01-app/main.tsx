@@ -31,7 +31,8 @@ const router = createBrowserRouter([
           { path: '/dashboard', element: <DashboardPage /> }, // Страница для авторизованных пользователей
           { path: '/profile', element: <ProfilePage />},
           { path: '/boards', element: <BoardsPage />},
-          { path: '/boards/board/:id', element: <BoardPage/>}
+          { path: '/boards/board/:id', element: <BoardPage/>},
+          { path: '/settings', element: <SettingsPage/>}
         ],
       },
     ],
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './redux/store.ts'; // persistor — обязательно экспортируй из store
+import SettingsPage from '../02-pages/ProtectedRoutes/SettingsPage/SettingsPage.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
