@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { updateBoardCards } from '../../01-app/redux/slices/boardsSlice';
-import { AppDispatch } from '../../01-app/redux/store';
-import { CardElement } from "../../05-entities/boardInterfaces";
+import { updateBoardCards } from '../../../01-app/redux/slices/boardsSlice';
+import { AppDispatch } from '../../../01-app/redux/store';
+import { CardElement } from "../../../05-entities/boardInterfaces";
 
 
 interface UseAddCardParams {

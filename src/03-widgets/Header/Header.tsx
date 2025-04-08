@@ -14,7 +14,7 @@ export const HeaderContainer = styled.div`
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 15px 30px;
+  padding: 12px 30px;
   border-bottom: 1px solid #b4b2b2;
 
 `;

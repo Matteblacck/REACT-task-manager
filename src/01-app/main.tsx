@@ -7,13 +7,13 @@ import { store } from './redux/store';
 
 
 // Страницы
-import GuestPage from '../02-pages/HomePage/GuestPage.tsx';
+import GuestPage from '../02-pages/Guest/GuestPage.tsx';
 import DashboardPage from '../02-pages/ProtectedRoutes/DashboardPage.tsx';
 import ProfilePage from '../02-pages/ProtectedRoutes/ProfilePage.tsx';
 import App from './App';
 import { ProtectedRoute } from '../06-shared/ProtectedRoute.tsx';
-import BoardsPage from '../02-pages/BoardsPage.tsx';
-import BoardPage from '../02-pages/BoardPage/BoardPage.tsx';
+import BoardsPage from '../02-pages/ProtectedRoutes/BoardsPage.tsx';
+import BoardPage from '../02-pages/ProtectedRoutes/BoardPage.tsx';
 
 // Маршруты
 const router = createBrowserRouter([

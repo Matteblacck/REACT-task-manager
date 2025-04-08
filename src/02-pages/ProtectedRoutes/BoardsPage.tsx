@@ -1,13 +1,15 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "../01-app/redux/store";
-import { addBoard, Board, removeBoard } from "../01-app/redux/slices/boardsSlice";
-import { joinBoard, leaveBoard } from "../01-app/redux/slices/userSlice";
-import Button from "../06-shared/Button";
-import StyledLink from "../06-shared/StyledLink";
+import { AppDispatch } from "../../01-app/redux/store";
+import { addBoard, removeBoard } from "../../01-app/redux/slices/boardsSlice";
+import { joinBoard, leaveBoard } from "../../01-app/redux/slices/userSlice";
+import Button from "../../06-shared/Button";
+import StyledLink from "../../06-shared/StyledLink";
 import { FaTrash } from "react-icons/fa";
-import ModalConfrm from '../03-widgets/modals/ModalConfirm'
+import ModalConfrm from '../../03-widgets/modals/ModalConfirm'
 import { useState } from'react';
+import { Board } from "../../05-entities/boardInterfaces";
+import Input from "../../06-shared/Input";
 
 // Анимации для фона
 const floatAnimation = keyframes`
@@ -35,15 +37,13 @@ const moveLeftRight = keyframes`
 
 // Стили для контейнера
 const Container = styled.div`
-  position: relative;
   overflow: hidden;
 `;
 
 const MainContainer = styled.div`
-  height: calc(100vh - 70px); // Высота минус 100px сверху
-  overflow-y: auto; // Добавляем скролл, если контент превышает высоту
+  height: calc(100vh - 70px); // Высота минус высота header'а
   position: relative;
-  overflow: hidden;
+  overflow: hidden; // Скрываем элементы, выходящие за пределы контейнера
 `;
 
 // Стили для фоновых элементов
@@ -133,9 +133,14 @@ const Square = styled(BackgroundElement)`
 
 // Стили для контента
 const Section = styled.div`
-  border-radius: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   padding: 15px;
-  background-color: transparent; // Полупрозрачный фон для контента
+  border-radius: 20px;
+  background-color: transparent;
+  overflow: hidden;
 `;
 
 const SectionHeader = styled.div`
@@ -146,8 +151,12 @@ const SectionHeader = styled.div`
 
 const BoardsList = styled.div`
   padding-top: 10px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: calc(100vh - 180px); /* Подстройте значение под ваш дизайн */
 `;
-
 const BoardsListItem = styled(StyledLink)`
   display: flex;
   align-items: center;
@@ -201,8 +210,6 @@ const DeleteButton = styled(Button)`
 
 export default function BoardsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
-  const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
 
   // Получаем доски
   const boards = useSelector(
@@ -216,6 +223,7 @@ export default function BoardsPage() {
     }) => state.auth.user
   );
 
+  //--add
   const handleBoardAdd = () => {
     if (!user) return; // Если пользователь не авторизован, ничего не делаем
   
@@ -227,6 +235,10 @@ export default function BoardsPage() {
     // Добавляем ID доски в boardIds пользователя
     dispatch(joinBoard(boardId)); 
   };
+
+  //--delete
+  const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
+  const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const confirmDeleteBoard = () => {
     if (boardToDelete) {
       dispatch(removeBoard(boardToDelete)); //
@@ -238,6 +250,8 @@ export default function BoardsPage() {
     setIsModalConfirmOpen(false);
   }
 
+  //--search
+  const [searchQuery, setSearchQuery] = useState("");
   
 
   return (
@@ -256,13 +270,24 @@ export default function BoardsPage() {
       <Container className="container">
         <div className="row">
           <Section className="col-12">
-            <SectionHeader>
-              <h1 className="pb-2">Your boards</h1>
-              <Button onClick={handleBoardAdd}>New board</Button>
+            <SectionHeader className="d-flex flex-column">
+              <div>
+                <h1 className="pb-2">Your boards</h1>
+              </div>
+              <div className="d-flex gap-2">
+                <Button onClick={handleBoardAdd}>New board</Button>
+                <Input 
+                placeholder="Search..."
+                onChange={(e) => setSearchQuery(e.target.value)}
+                ></Input>
+              </div>
+              
             </SectionHeader>
             <BoardsList>
               {boards && boards.length > 0 ? (
-                boards.map((board) => (
+                boards
+                .filter(bordTitle => bordTitle == null || bordTitle.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                .map((board) => (
                   <BoardsListItem className="gap-2" key={board.id} to={`/boards/board/${board.id}`}>
                         <div>
                           <h3 style={{fontSize:'20px'}}>{board.name}</h3>

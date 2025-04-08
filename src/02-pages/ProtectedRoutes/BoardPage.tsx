@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import {
   updateBoardCards,
 } from "../../01-app/redux/slices/boardsSlice";
-import Card from "./Card";
+import Card from "../../03-widgets/Card";
 import {
   DragDropContext,
   Draggable,
@@ -13,11 +13,12 @@ import {
 } from "@hello-pangea/dnd";
 import { AppDispatch } from "../../01-app/redux/store";
 import Input from "../../06-shared/Input";
-import { useAddCard } from "../../04-features/BOARD/addCard";
-import { useBoard } from "../../04-features/BOARD/useBoard";
-import { useBoardNameEdit } from "../../04-features/BOARD/useBoardNameEdit";
-import { useCardElements } from "../../04-features/BOARD/card-features/useCardElements";
-import { useCards } from "../../04-features/BOARD/card-features/useCards";
+
+import { useBoard } from "../../04-features/BOARD-CARD/useBoard";
+import { useBoardNameEdit } from "../../04-features/BOARD-CARD/board-features/useBoardNameEdit";
+import { useCardElements } from "../../04-features/BOARD-CARD/card-features/useCardElements";
+import { useCards } from "../../04-features/BOARD-CARD/card-features/useCards";
+import { useAddCard } from "../../04-features/BOARD-CARD/board-features/addCard";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }

@@ -38,10 +38,12 @@ export default function Authorised() {
     }
 
     const handleProfileMenuOpen = () => {
-        setIsProfileMenuOpen(!isProfileMenuOpen); // Переключаем состояние меню
+        setIsProfileMenuOpen(!isProfileMenuOpen);
+        setIsSlideMenuOpen(false)
     }
     const handleSlideMenuOpen = () => {
-        setIsSlideMenuOpen(!isSlideMenuOpen); // Переключаем состояние меню
+        setIsSlideMenuOpen(!isSlideMenuOpen);
+        setIsProfileMenuOpen(false)
     }
 
     const pageTitle = getPageTitle(location.pathname);
@@ -53,7 +55,7 @@ export default function Authorised() {
                 <div className='d-flex align-items-center gap-2'>
                 <div className='d-flex gap-1'>
                     <Button onClick={handleSlideMenuOpen}>
-                        <FaBars size={20} />
+                        <FaBars size={15} />
                     </Button>
                 </div>
                 <div className='d-flex align-items-center gap-1'>
@@ -68,7 +70,7 @@ export default function Authorised() {
 
                 <div className='d-flex gap-1'>
                     <Button onClick={handleProfileMenuOpen}>
-                        <StyledUserIcon size={20} />
+                        <StyledUserIcon size={15} />
                     </Button>
                 </div>
             </HeaderContainer>

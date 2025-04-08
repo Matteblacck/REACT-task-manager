@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { forwardRef } from "react";
 
 const StyledInput = styled.input`
-  background-color: ${(props) => props.theme.inputBackground};
-  border: 1px solid gray;
+  background-color: white;
+  border: 1px solid #d2d1d1;
   border-radius: 5px;
   height: 35px;
   padding: 8px 12px;
