@@ -59,6 +59,7 @@ const ContentArea = styled.div`
 `;
 
 export default function SettingsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState('notifications');
 

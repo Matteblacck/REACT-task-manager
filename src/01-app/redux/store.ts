@@ -14,6 +14,7 @@ import { combineReducers } from "redux";
 import storage  from "redux-persist/lib/storage";
 import authReducer from './slices/userSlice';
 import boardsReducer from './slices/boardsSlice';
+import appearanceSlice from './slices/appearanceSlice';
 
 // 1. Кастомный storage с правильной сериализацией
 
@@ -46,11 +47,16 @@ const boardsPersistConfig = {
   storage,
   transforms: [readableTransform],
 };
-
+const appearancePersistConfig = {
+  key: 'appearance',
+  storage,
+  transforms: [readableTransform],
+};
 // 4. Создаем root reducer
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   boards: persistReducer(boardsPersistConfig, boardsReducer),
+  appeanace: persistReducer(appearancePersistConfig, appearanceSlice),
 });
 
 // 5. Создаем store
