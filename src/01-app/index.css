@@ -236,10 +236,23 @@ table {
    }
  }
 
+/* themes */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-accent: #ff9800;
+  /* другие цвета */
+}
 
+[data-theme='dark'] {
+  --color-bg: #121212;
+  --color-text: #f0f0f0;
+  --color-accent: #ff9800;
+}
  html, body {
   font-family: 'Manrope';
-  color:black;
+  color:var(--color-text);
+  background-color: var(--color-bg);
   font-weight: 600;
   height: 100%;
   margin: 0;

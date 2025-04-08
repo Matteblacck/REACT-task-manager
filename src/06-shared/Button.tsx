@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 
 // Стилизация кнопки
 const StyledButton = styled.button`
-  background-color: white;
+  background-color: var(--color-bg);
   color: ${(props) => props.theme.buttonText};
   height: 35px;
   border-radius: 5px;
