@@ -4,10 +4,10 @@ import React, { forwardRef } from 'react';
 // Стилизация кнопки
 const StyledButton = styled.button`
   background-color: var(--color-bg);
-  color: ${(props) => props.theme.buttonText};
+  color: var(--color-text);
   height: 35px;
   border-radius: 5px;
-  border: 1px solid #d2d1d1;
+  border: 1px solid var(--color-minor);
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;

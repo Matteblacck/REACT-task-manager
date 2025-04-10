@@ -137,10 +137,11 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionContent = styled.div`
-  background-color: #ffffff;
+  background-color: var(--color-over);
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  
 `;
 
 const InfoItem = styled.div`
@@ -149,7 +150,7 @@ const InfoItem = styled.div`
   gap: 10px;
   margin-bottom: 15px;
   font-size: 1.1rem;
-  color: #343a40;
+  color: var(--color-text);
 `;
 
 const SocialLinks = styled.div`
@@ -159,7 +160,7 @@ const SocialLinks = styled.div`
 `;
 
 const SocialLink = styled.a`
-  color: #ff9800;
+  color: var(--color-text);
   font-size: 2rem;
   transition: color 0.3s ease;
 
@@ -197,7 +198,7 @@ const StyledTextarea = styled.textarea`
   outline: none;
   resize: vertical;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
+  background-color: var(--color-bg);
   &:focus {
     border-color: #ff9800;
     box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);

@@ -1,28 +1,26 @@
-import { createSlice} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+type ThemeMode = 'light' | 'dark';
+
 interface AppearanceState {
-  // опиши здесь поля состояния, например:
-  // theme: 'light' | 'dark'
+  theme: ThemeMode;
 }
 
 const initialState: AppearanceState = {
-  // начальное состояние
-}
+  theme: 'light',
+};
 
 const appearanceSlice = createSlice({
   name: 'appearance',
   initialState,
   reducers: {
-    // добавь редьюсеры, например:
-    // setTheme(state, action: PayloadAction<'light' | 'dark'>) {
-    //   state.theme = action.payload
-    // }
+    setTheme: (state, action: PayloadAction<ThemeMode>) => {
+      state.theme = action.payload;
+      localStorage.setItem('theme', action.payload);
+      document.documentElement.setAttribute('data-theme', action.payload);
+    },
   },
-})
+});
 
-// export const {
-
-// } = appearanceSlice.actions
-
-export default appearanceSlice.reducer
+export const { setTheme } = appearanceSlice.actions;
+export default appearanceSlice.reducer;

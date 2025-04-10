@@ -43,7 +43,7 @@ const CardColumn = styled.div`
   padding: 15px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
-  background-color: white;
+  background-color: var(--color-bg);
   &:hover {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   }
@@ -73,7 +73,7 @@ interface TasksListItemProps {
   }
 const TasksListItem = styled.li<TasksListItemProps>`
   font-size: 15px;
-  background-color: white;
+  background-color: transparent;
   width: 330px;
   border: 1.5px solid ${(props) => {
     switch (props.$priority) {
@@ -98,7 +98,7 @@ const TasksListItem = styled.li<TasksListItemProps>`
   white-space: normal;
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: var(--color-over);
     box-shadow: 0 0 4px ${(props) => {
       switch (props.$priority) {
         case "high":
@@ -121,6 +121,7 @@ const TasksListItem = styled.li<TasksListItemProps>`
 const DeleteButton = styled.button`
   background-color: transparent;
   border: none;
+  color: var(--color-text);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -141,7 +142,7 @@ const StyledButton = styled(Button)`
   border-radius: 10px;
 
   &:hover {
-    background-color: #d2d1d1;
+    background-color: var(--color-over);
   }
 `;
 
@@ -151,8 +152,9 @@ const TextArea = styled.textarea`
   padding: 10px;
   font-size: 16px;
   font-family: inherit;
-  color: #333;
-  border: 1px solid #ccc;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid var(--color-minor);
   border-radius: 8px;
   outline: none;
   resize: vertical;

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../../06-shared/Button";
-import { useSelector } from "react-redux";
-import { Board } from "../../../01-app/redux/slices/boardsSlice";
 import { FaStickyNote } from "react-icons/fa";
 import PrioritySelector from "./components/PrioritySelector";
+import { useBoard } from "../../../04-feture/BOARD-CARD/useBoard";
 
 // Стили
 const ModalOverlay = styled.div`
@@ -32,7 +31,7 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  background: white;
+  background: var(--color-bg);
   padding: 2rem;
   border-radius: 12px;
   width: 600px;
@@ -65,6 +64,8 @@ const Textarea = styled.textarea`
   font-family: inherit;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   margin-bottom: 15px;
   resize: none;
   outline: none;
@@ -76,7 +77,7 @@ const Textarea = styled.textarea`
   }
 
   &::placeholder {
-    color: #999;
+    color: gray;
   }
 `;
 
@@ -119,14 +120,14 @@ background-color: transparent;
 const TaskTitle = styled.h3`
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
 `;
 
 const CardName = styled.h5`
   font-size: 16px;
   font-weight: 500;
-  color: #666;
+  color: gray;
   margin: 0;
 `;
 
@@ -136,7 +137,7 @@ const DescriptionHeader = styled.div`
   gap: 0.5rem;
   font-size: 18px;
   font-weight: 500;
-  color: #333;
+  color: gray;
   margin-bottom: 1rem;
 `;
 
@@ -159,9 +160,7 @@ const CardElementModal: React.FC<ModalProps> = ({
 }) => {
   const [newDescription, setNewDescription] = useState("");
 
-  const board = useSelector((state: { boards: { boards: Board[] } }) =>
-    state.boards.boards.find((b) => b.id === boardId)
-  );
+  const board = useBoard()
   const card = board?.cards.find((c) =>
     c.elements.some((el) => el.id === taskId)
   );

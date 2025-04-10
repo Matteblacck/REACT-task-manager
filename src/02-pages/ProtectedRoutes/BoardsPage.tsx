@@ -38,6 +38,7 @@ const moveLeftRight = keyframes`
 // Стили для контейнера
 const Container = styled.div`
   overflow: hidden;
+  background-color: (--color-bg);
 `;
 
 const MainContainer = styled.div`
@@ -160,9 +161,9 @@ const BoardsList = styled.div`
 const BoardsListItem = styled(StyledLink)`
   display: flex;
   align-items: center;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-minor);
   padding: 15px;
+  background-color: var(--color-bg);
   margin-bottom: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -170,7 +171,7 @@ const BoardsListItem = styled(StyledLink)`
   position: relative;
 
   &:hover {
-    background-color: #f1f1f1;
+    background-color: var(--color-over);
     border-color: #ccc;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
@@ -196,15 +197,14 @@ const DeleteButton = styled(Button)`
   right: 10px;
   border: none;
   padding-bottom: 40px;
-  position: absolute;;
-  color: white;
+  position: absolute;
   font-size: 1.5rem;
   cursor: pointer;
   opacity: 0; /* Скрываем кнопку по умолчанию */
   transition: opacity 0.3s ease, background 0.3s ease;
 
   &:hover {
-    background:#d2d1d1;
+    background:var(--color-over);
   }
 `;
 
@@ -295,7 +295,13 @@ export default function BoardsPage() {
                         <div>
                           <p style={{color:'gray'}}>Created:{" "} {new Date(board.createdAt).toLocaleString()}</p>
                         </div>
-                      <DeleteButton onClick={(e) => {e.preventDefault(); e.stopPropagation(); setIsModalConfirmOpen(true); setBoardToDelete(board.id); }}><FaTrash style={{color:'black'}} size={18}/></DeleteButton>
+                      <DeleteButton onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsModalConfirmOpen(true); 
+                        setBoardToDelete(board.id); }}>
+                          <FaTrash style={{color:'var(--color-text)', backgroundColor:'var(--color-over)'}} size={18}/>
+                        </DeleteButton>
                   </BoardsListItem>
                 ))
               ) : (

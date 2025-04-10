@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { FaTimes,FaHome, FaCog } from "react-icons/fa";
+import { FaTimes,FaHome, FaCog, FaTable } from "react-icons/fa";
 import Button from "../../06-shared/Button";
 import StyledLink from "../../06-shared/StyledLink";
 import logo from '../../assets/logo.svg'
-import boards from '../../assets/boards.svg';
 
 
 interface SlideMenuProps {
   isOpen: boolean;
   onClose?: () => void;
 }
-
 const Overlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
@@ -32,12 +30,12 @@ const MenuWrapper = styled.div<{ $isOpen: boolean }>`
   height: 100vh;
   width: 350px;
   border-radius: 0 20px 20px 0; /* Скругляем только правый угол */
-  background: #fff;
+  background: var(--color-bg);
   transform: translateX(${(props) => (props.$isOpen ? "0" : "-100%")}); /* Двигаем влево */
   opacity: ${(props) => (props.$isOpen ? "1" : "0")};
   transition: transform 0.4s ease-out, opacity 0.3s ease-in-out;
   padding: 20px;
-  border-right: 2px solid #d2d1d1; /* Граница справа */
+  border-right: 2px solid var(--colot-over); /* Граница справа */
   z-index: 1000;
   box-shadow: ${(props) =>
     props.$isOpen ? "5px 0 15px rgba(0, 0, 0, 0.1)" : "none"};
@@ -51,7 +49,7 @@ const MenuHeader = styled.div`
   padding-bottom: 10px;
   margin-bottom: 20px;
   font-size: 1.2rem;
-  color: black;
+  color: var(--color-text);
 `;
 
 const CloseButton = styled(Button)`
@@ -60,9 +58,10 @@ const CloseButton = styled(Button)`
   padding: 0;
   transition: background-color 0.2s ease;
   border-radius: 15px;
+  color: var(--color-text);
 
   &:hover {
-    background-color: #d2d1d1;
+    background-color: var(--color-over);
   }
 `;
 
@@ -83,7 +82,7 @@ const StyledLinkk = styled(StyledLink)`
 padding: 5px 5px 5px 10px;
 border-radius: 10px;
   &:hover{
-    background-color: #d2d1d1;
+    background-color: var(--color-over);
   }
 `
 
@@ -129,7 +128,7 @@ export default function SideMenu({ isOpen, onClose }: SlideMenuProps) {
           </StyledLinkk>
           <StyledLinkk to="/boards" onClick={onClose}>
             <MenuElement>
-                <img src={boards} alt="" />
+                <FaTable size='24'/>
                 <p>Boards</p>
             </MenuElement>
           </StyledLinkk>

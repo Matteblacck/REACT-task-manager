@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
-import { Board } from "../../01-app/redux/slices/boardsSlice";
 import StyledLink from "../../06-shared/StyledLink";
+import { Board } from "../../05-entities/boardInterfaces";
 
 // Анимации для фона
 const floatAnimation = keyframes`
@@ -27,6 +27,7 @@ const MainContainer = styled.div`
   overflow-y: auto; // Добавляем скролл, если контент превышает высоту
   position: relative;
   overflow: hidden;
+  background-color: var(--color-bg);
 `;
 const DashboardContainer = styled.div`
   padding-top: 40px;
@@ -38,8 +39,9 @@ const DashboardContainer = styled.div`
 // Стили для фоновых элементов
 const BackgroundElement = styled.div`
   position: absolute;
-  z-index: -1;
+  z-index: 1;
   opacity: 0.3;
+  
 `;
 
 const Circle = styled(BackgroundElement)`
@@ -95,7 +97,7 @@ const Sunburst = styled(BackgroundElement)`
   height: 200px;
   top: 20%;
   right: 10%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="8" fill="%23FFEB3B" /><line x1="50" y1="50" x2="90" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="10" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="20" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="20" stroke="%23FF9800" stroke-width="6" /></svg>')
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="8" fill="%23FF9800" /><line x1="50" y1="50" x2="90" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="10" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="20" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="20" stroke="%23FF9800" stroke-width="6" /></svg>')
     no-repeat center;
   animation: ${pulseAnimation} 5s infinite ease-in-out;
 `;
@@ -107,16 +109,18 @@ const SectionTitle = styled.h1`
 `;
 
 const WorkspacesItem = styled(StyledLink)`
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-minor);
+  padding: 15px;
+  background-color: var(--color-bg);
   padding: 15px;
   margin-bottom: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  z-index: 2;
 
   &:hover {
-    background-color: #f1f1f1;
+    background-color: var(--color-over);
     border-color: #ccc;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }

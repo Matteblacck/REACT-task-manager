@@ -89,7 +89,7 @@ const Sunburst = styled(BackgroundElement)`
   height: 300px;
   top: 20%;
   right: 10%;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="8" fill="%23FFEB3B" /><line x1="50" y1="50" x2="90" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="10" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="20" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="20" stroke="%23FF9800" stroke-width="6" /></svg>')
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="8" fill="%23FF9800" /><line x1="50" y1="50" x2="90" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="80" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="10" y2="50" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="30" y2="20" stroke="%23FF9800" stroke-width="6" /><line x1="50" y1="50" x2="70" y2="20" stroke="%23FF9800" stroke-width="6" /></svg>')
     no-repeat center;
   animation: ${pulseAnimation} 5s infinite ease-in-out;
 `;
@@ -112,7 +112,7 @@ const Container = styled.div`
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  background: white;
+  background: var(--color-bg);
 `;
 
 // Контейнер с горизонтальным скроллом
@@ -142,7 +142,7 @@ const Toolbar = styled.div`
 
 const StyledButton = styled(Button)`
   &:hover {
-    background-color: #d2d1d1;
+    background-color: var(--color-over);
   }
 `;
 
@@ -151,7 +151,7 @@ const TitleInput = styled(Input)`
   background-color: transparent;
   font-size: 1.3rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
   padding: 0;
 `;
 
@@ -262,7 +262,6 @@ export default function BoardPage() {
         )}
 
         <StyledButton
-          style={{ border: "1px solid #ff9800" }}
           onClick={handleAddCard}
         >
           Add new card

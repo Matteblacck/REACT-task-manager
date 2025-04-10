@@ -64,7 +64,7 @@ interface PrioritySelectorProps {
     return (
       <PriorityContainer>
         <PriorityHeader>
-          <FaFlag color="black" />
+          <FaFlag color="var(--color-text)" />
           <h4>Priority:</h4>
         </PriorityHeader>
   
@@ -75,7 +75,7 @@ interface PrioritySelectorProps {
               onClick={() => handlePriorityChange(level)}
             >
               {Array.from({ length: flags }).map((_, i) => (
-                <FaFlag key={i} color={selectedPriority === level ? color : "#BDBDBD"} />
+                <FaFlag key={i} color={selectedPriority === level ? color : "gray"} />
               ))}
             </FlagWrapper>
           ))}

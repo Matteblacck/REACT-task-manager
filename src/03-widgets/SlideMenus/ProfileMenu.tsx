@@ -36,12 +36,12 @@ const MenuWrapper = styled.div<{ $isOpen: boolean }>`
   height: 100vh;
   width: 350px;
   border-radius: 20px;
-  background: #fff;
+  background: var(--color-bg);
   transform: translateX(${(props) => (props.$isOpen ? "0" : "100%")});
   opacity: ${(props) => (props.$isOpen ? "1" : "0")};
   transition: transform 0.4s ease-out, opacity 0.3s ease-in-out;
   padding: 20px;
-  border-left: 2px solid #d2d1d1;
+  border-left: 2px solid var(--color-over);
   z-index: 1000;
   box-shadow: ${(props) =>
     props.$isOpen ? "-5px 0 15px rgba(0, 0, 0, 0.1)" : "none"};
@@ -55,19 +55,20 @@ const MenuHeader = styled.div`
   padding-bottom: 10px;
   margin-bottom: 20px;
   font-size: 1.2rem;
-  color: black;
-  border-bottom: 2px solid #d2d1d1;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-minor);
 `;
 
 const CloseButton = styled(Button)`
   border: none;
   background: none;
   padding: 0;
+  color: var(--color-text);
   border-radius: 15px;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #d2d1d1;
+    background-color: var(--color-bg);
   }
 `;
 
@@ -86,7 +87,7 @@ const StyledLinkk = styled(StyledLink)`
 padding: 5px 5px 5px 10px;
 border-radius: 10px;
   &:hover{
-    background-color: #d2d1d1;
+    background-color: var(--color-over);
   }
 `
 export default function ProfileMenu({ isOpen, onClose }: ProfileMenuProps) {

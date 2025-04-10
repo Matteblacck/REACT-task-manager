@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { 
+import {
   persistStore,
   persistReducer,
   FLUSH,
@@ -8,21 +8,18 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-  createTransform
+  createTransform,
 } from 'redux-persist';
 import { combineReducers } from "redux";
-import storage  from "redux-persist/lib/storage";
+import storage from "redux-persist/lib/storage";
+
 import authReducer from './slices/userSlice';
 import boardsReducer from './slices/boardsSlice';
 import appearanceSlice from './slices/appearanceSlice';
 
-// 1. Кастомный storage с правильной сериализацией
-
-// 2. Transform для обработки данных
+// Transform для auth и boards
 const readableTransform = createTransform(
-  // inbound - сохраняем как есть (Redux Persist сам сериализует)
   (state) => state,
-  // outbound - парсим данные
   (raw) => {
     try {
       return typeof raw === 'string' ? JSON.parse(raw) : raw;
@@ -34,12 +31,11 @@ const readableTransform = createTransform(
   { whitelist: ['auth', 'boards'] }
 );
 
-// 3. Конфигурация persist (ВКЛЮЧАЕМ сериализацию)
+// persist конфиги
 const authPersistConfig = {
   key: 'auth',
   storage,
   transforms: [readableTransform],
-
 };
 
 const boardsPersistConfig = {
@@ -47,19 +43,14 @@ const boardsPersistConfig = {
   storage,
   transforms: [readableTransform],
 };
-const appearancePersistConfig = {
-  key: 'appearance',
-  storage,
-  transforms: [readableTransform],
-};
-// 4. Создаем root reducer
+
+// rootReducer без persist для appearance
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   boards: persistReducer(boardsPersistConfig, boardsReducer),
-  appeanace: persistReducer(appearancePersistConfig, appearanceSlice),
+  appearance: appearanceSlice, // обычный reducer
 });
 
-// 5. Создаем store
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>

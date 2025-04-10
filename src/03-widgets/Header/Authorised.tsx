@@ -12,7 +12,7 @@ import SideMenu from '../SlideMenus/SideMenu';
 
 // Стилизованный компонент для иконки
 const StyledUserIcon = styled(FaUser)`
-  color: black; /* Цвет по умолчанию */
+  color: var(--color-text); /* Цвет по умолчанию */
   transition: color 0.1s ease;
 
   &:hover {
@@ -57,7 +57,7 @@ export default function Authorised() {
                 <div className='d-flex align-items-center gap-2'>
                 <div className='d-flex gap-1'>
                     <Button onClick={handleSlideMenuOpen}>
-                        <FaBars size={15} />
+                        <FaBars size={15} style={{color:'var(--color-text'}}/>
                     </Button>
                 </div>
                 <div className='d-flex align-items-center gap-1'>

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { AppDispatch } from "../../../01-app/redux/store";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { FaBell, FaLock, FaPalette, FaLanguage, FaSignOutAlt } from "react-icons/fa";
 import { NotificationsTab } from "./NotificationsTab";
@@ -8,19 +6,19 @@ import { AppearanceTab } from "./AppearanceTab";
 
 
 
-// Стили для контейнера
 
 const MainContainer = styled.div`
   height: calc(100vh - 70px); // Высота минус высота header'а
   position: relative;
-  background-color: transparent;
+  color: var(--color-text);
+  background: var(--color-bg);
   overflow: hidden; // Скрываем элементы, выходящие за пределы контейнера
 `;
 
 
 
 const SettingsNav = styled.div`
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--color-bg);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 20px;
@@ -37,7 +35,7 @@ const NavItem = styled.div<{ $active: boolean }>`
   gap: 10px;
   transition: all 0.2s ease;
   background: ${props => props.$active ? 'rgba(255, 152, 0, 0.2)' : 'transparent'};
-  color: ${props => props.$active ? '#ff9800' : '#333'};
+  color: ${props => props.$active ? '#ff9800' : 'var(--color-text)'};
   
   &:hover {
     background: rgba(255, 152, 0, 0.1);
@@ -51,7 +49,6 @@ const NavIcon = styled.div`
 `;
 
 const ContentArea = styled.div`
-  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 20px;
@@ -59,8 +56,6 @@ const ContentArea = styled.div`
 `;
 
 export default function SettingsPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState('notifications');
 
   const renderContent = () => {
