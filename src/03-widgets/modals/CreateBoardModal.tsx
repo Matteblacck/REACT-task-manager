@@ -96,11 +96,11 @@ const CreateBoardModal: React.FC<CreateBoardModalProps> = ({onClose}: CreateBoar
           <h1 className="text-start pb-2">Enter the name:</h1>
           <Input placeholder="Name..." value={boardName} onChange={(e) => setBoardName(e.target.value)}></Input>
         </div>
-        <div className="pt-2">
+        <div className="pt-1">
           <h1 className="text-start pb-2">Tags:</h1>
           <Tags selectedTags={selectedTags} onToggleAdd={handleTagSelection} />
         </div>
-        <ModalActions className="pt-5">
+        <ModalActions className="pt-4">
           <div>
             <StyledButton onClick={onClose}>Cancel</StyledButton>
           </div>

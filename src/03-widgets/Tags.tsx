@@ -26,7 +26,7 @@ const Tags: FC<SelectedTagsProps> = ({ selectedTags, onToggleAdd }) => {
             color: `${tag.color}`,
             border: `1px solid ${tag.color}`,
             padding: '5px 10px',
-            borderRadius: '15px',
+            borderRadius: '8px',
             backgroundColor: selectedTags.includes(tag.name) 
               ? `${tag.color}80`  // Полупрозрачный фон для выбранного тега
               : 'transparent',

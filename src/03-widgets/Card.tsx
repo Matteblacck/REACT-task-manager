@@ -307,6 +307,12 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
           value={newItem}
           onChange={(e) => setNewItem(e.target.value)}
           placeholder="Enter a task"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleAdd();
+            }
+          }}
         />
       )}
 
