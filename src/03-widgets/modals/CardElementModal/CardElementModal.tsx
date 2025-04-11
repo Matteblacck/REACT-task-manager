@@ -137,7 +137,7 @@ const DescriptionHeader = styled.div`
   gap: 0.5rem;
   font-size: 18px;
   font-weight: 500;
-  color: gray;
+  color: var(--color-text);
   margin-bottom: 1rem;
 `;
 
