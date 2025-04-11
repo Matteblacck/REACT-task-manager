@@ -14,11 +14,11 @@ import {
 import { AppDispatch } from "../../01-app/redux/store";
 import Input from "../../06-shared/Input";
 
-import { useBoard } from "../../04-feture/BOARD-CARD/useBoard";
-import { useBoardNameEdit } from "../../04-feture/BOARD-CARD/board-features/useBoardNameEdit";
-import { useCardElements } from "../../04-feture/BOARD-CARD/card-features/useCardElements";
-import { useCards } from "../../04-feture/BOARD-CARD/card-features/useCards";
-import { useAddCard } from "../../04-feture/BOARD-CARD/board-features/addCard";
+import { useBoard } from "../../04-feature/BOARD-CARD/useBoard";
+import { useBoardNameEdit } from "../../04-feature/BOARD-CARD/board-features/useBoardNameEdit";
+import { useCardElements } from "../../04-feature/BOARD-CARD/card-features/useCardElements";
+import { useCards } from "../../04-feature/BOARD-CARD/card-features/useCards";
+import { useAddCard } from "../../04-feature/BOARD-CARD/board-features/addCard";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }

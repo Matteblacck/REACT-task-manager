@@ -1,16 +1,17 @@
 import styled, { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../01-app/redux/store";
-import { addBoard, removeBoard } from "../../01-app/redux/slices/boardsSlice";
-import { joinBoard, leaveBoard } from "../../01-app/redux/slices/userSlice";
+import { removeBoard } from "../../01-app/redux/slices/boardsSlice";
+import { leaveBoard } from "../../01-app/redux/slices/userSlice";
 import Button from "../../06-shared/Button";
 import StyledLink from "../../06-shared/StyledLink";
 import { FaTrash } from "react-icons/fa";
-import ModalConfrm from '../../03-widgets/modals/ModalConfirm'
-import { useState } from'react';
+import ModalConfrm from "../../03-widgets/modals/ModalConfirm";
+import { useState } from "react";
 import { Board } from "../../05-entities/boardInterfaces";
 import Input from "../../06-shared/Input";
-
+import CreateBoardModal from "../../03-widgets/modals/CreateBoardModal";
+import { tags } from "../../05-entities/boardInterfaces";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -204,37 +205,17 @@ const DeleteButton = styled(Button)`
   transition: opacity 0.3s ease, background 0.3s ease;
 
   &:hover {
-    background:var(--color-over);
+    background: var(--color-over);
   }
 `;
 
 export default function BoardsPage() {
   const dispatch = useDispatch<AppDispatch>();
-
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   // Получаем доски
   const boards = useSelector(
     (state: { boards: { boards: Board[] } }) => state.boards.boards
   );
-
-  // Получаем текущего пользователя
-  const user = useSelector(
-    (state: {
-      auth: { user: { profile: { id: string; name: string } } | null };
-    }) => state.auth.user
-  );
-
-  //--add
-  const handleBoardAdd = () => {
-    if (!user) return; // Если пользователь не авторизован, ничего не делаем
-  
-    const boardId = crypto.randomUUID(); // Уникальный ID для доски
-  
-    // Добавляем доску и текущего пользователя как члена
-    dispatch(addBoard({ id: boardId, name: "New board", createdBy: user.profile.name }));
-  
-    // Добавляем ID доски в boardIds пользователя
-    dispatch(joinBoard(boardId)); 
-  };
 
   //--delete
   const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
@@ -245,14 +226,13 @@ export default function BoardsPage() {
       dispatch(leaveBoard(boardToDelete));
       setIsModalConfirmOpen(false);
     }
-  }
+  };
   const cancelDeleteBoard = () => {
     setIsModalConfirmOpen(false);
-  }
+  };
 
   //--search
   const [searchQuery, setSearchQuery] = useState("");
-  
 
   return (
     <MainContainer>
@@ -275,35 +255,82 @@ export default function BoardsPage() {
                 <h1 className="pb-2">Your boards</h1>
               </div>
               <div className="d-flex gap-2">
-                <Button onClick={handleBoardAdd}>New board</Button>
-                <Input 
-                placeholder="Search..."
-                onChange={(e) => setSearchQuery(e.target.value)}
+                <Button onClick={() => setIsCreateModalOpen(true)}>
+                  New board
+                </Button>
+                <Input
+                  placeholder="Search..."
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 ></Input>
               </div>
-              
             </SectionHeader>
             <BoardsList>
               {boards && boards.length > 0 ? (
                 boards
-                .filter(bordTitle => bordTitle == null || bordTitle.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                .map((board) => (
-                  <BoardsListItem className="gap-2" key={board.id} to={`/boards/board/${board.id}`}>
-                        <div>
-                          <h3 style={{fontSize:'20px'}}>{board.name}</h3>
+                  .filter(
+                    (bordTitle) =>
+                      bordTitle == null ||
+                      bordTitle.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
+                  )
+                  .map((board) => (
+                    <BoardsListItem
+                      className="gap-2 d-flex align-items-center"
+                      key={board.id}
+                      to={`/boards/board/${board.id}`}
+                    >
+                      <div>
+                        <div className="d-flex align-items-center gap-2">
+                          <div >
+                          <h3 style={{ fontSize: "22px" }}>{board.name}</h3>
+                          </div>
+                          <div className="d-flex pb-1">
+                            {board.tags?.map((tagName) => {
+                              const tag = tags.find((t) => t.name === tagName);
+                              return tag ? (
+                                <span
+                                  key={tag.name}
+                                  style={{
+                                    backgroundColor: tag.color,
+                                    padding: "1px 2px 1px 2px",
+                                    borderRadius: "5px",
+                                    marginRight: "4px",
+                                    color: "var(--color-bg)",
+                                  }}
+                                >
+                                  {tag.name}
+                                </span>
+                              ) : null;
+                            })}
+                          </div>
                         </div>
                         <div>
-                          <p style={{color:'gray'}}>Created:{" "} {new Date(board.createdAt).toLocaleString()}</p>
+                          <p style={{ color: "gray" }}>
+                            Created:{" "}
+                            {new Date(board.createdAt).toLocaleString()}
+                          </p>
                         </div>
-                      <DeleteButton onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsModalConfirmOpen(true); 
-                        setBoardToDelete(board.id); }}>
-                          <FaTrash style={{color:'var(--color-text)', backgroundColor:'var(--color-over)'}} size={18}/>
-                        </DeleteButton>
-                  </BoardsListItem>
-                ))
+                      </div>
+
+                      <DeleteButton
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setIsModalConfirmOpen(true);
+                          setBoardToDelete(board.id);
+                        }}
+                      >
+                        <FaTrash
+                          style={{
+                            color: "var(--color-text)",
+                            backgroundColor: "var(--color-over)",
+                          }}
+                          size={18}
+                        />
+                      </DeleteButton>
+                    </BoardsListItem>
+                  ))
               ) : (
                 <p>No boards yet</p>
               )}
@@ -312,7 +339,13 @@ export default function BoardsPage() {
         </div>
       </Container>
       {isModalConfirmOpen && (
-        <ModalConfrm onConfirm={confirmDeleteBoard} onCancel={cancelDeleteBoard} />
+        <ModalConfrm
+          onConfirm={confirmDeleteBoard}
+          onCancel={cancelDeleteBoard}
+        />
+      )}
+      {isCreateModalOpen && (
+        <CreateBoardModal onClose={() => setIsCreateModalOpen(false)} />
       )}
     </MainContainer>
   );

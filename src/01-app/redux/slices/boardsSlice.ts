@@ -38,10 +38,11 @@ const boardsSlice = createSlice({
       state.loading = false;
     },
 
-    addBoard: (state, action: PayloadAction<{ id: string; name: string; createdBy: string }>) => {
+    addBoard: (state, action: PayloadAction<{ id: string; name: string; createdBy: string; tags: string[] }>) => {
       const newBoard: Board = {
         id: action.payload.id,
         name: action.payload.name,
+        tags: action.payload.tags,
         members: [{ id: action.payload.createdBy, role: "owner" }],
         createdAt: new Date().toISOString(),
         cards: defaultCards,

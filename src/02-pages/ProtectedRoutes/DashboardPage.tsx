@@ -159,8 +159,9 @@ export default function DashboardPage() {
         <DashboardContainer>
           <div className="row">
             {/* Контент */}
-            <UsersWorkspaces className="col-4 d-flex flex-column">
+            <UsersWorkspaces className="col-4 d-flex flex-column" >
               <SectionTitle>Your workspaces</SectionTitle>
+              <div className='d-flex flex-column' style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               {boards && boards.length > 0 ? (
                 boards.map((board) => (
                   <WorkspacesItem to={`/boards/board/${board.id}`} key={board.id} >{board.name}</WorkspacesItem>
@@ -169,6 +170,8 @@ export default function DashboardPage() {
                 <p>It seems like you don't have any boards yet</p>
                 
               )}
+              </div>
+              
             </UsersWorkspaces>
             <SomeInfoContainer1 className="col-4">
               <SectionTitle>Content</SectionTitle>

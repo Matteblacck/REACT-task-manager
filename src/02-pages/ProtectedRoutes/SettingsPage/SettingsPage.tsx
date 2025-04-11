@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { FaBell, FaLock, FaPalette, FaLanguage, FaSignOutAlt } from "react-icons/fa";
-import { NotificationsTab } from "./NotificationsTab";
+import { FaTable, FaLock, FaPalette, FaLanguage, FaSignOutAlt } from "react-icons/fa";
+import { BoardsTab } from "./BoardsTab";
 import { AppearanceTab } from "./AppearanceTab";
 
 
@@ -60,8 +60,8 @@ export default function SettingsPage() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'notifications':
-        return <NotificationsTab/>;
+      case 'boards':
+        return <BoardsTab/>;
       case 'security':
         return <div>Безопасность</div>;
       case 'appearance':
@@ -81,11 +81,11 @@ export default function SettingsPage() {
             <SettingsNav>
             
               <NavItem 
-                $active={activeTab === 'notifications'} 
-                onClick={() => setActiveTab('notifications')}
+                $active={activeTab === 'boards'} 
+                onClick={() => setActiveTab('boards')}
               >
-                <NavIcon><FaBell /></NavIcon>
-                <span>Notifications</span>
+                <NavIcon><FaTable /></NavIcon>
+                <span>Boards</span>
               </NavItem>
               
               <NavItem 

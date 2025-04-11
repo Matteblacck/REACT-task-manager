@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import lightTheme from "../../../assets/themes/light-theme.png";
 import darkTheme from "../../../assets/themes/dark-theme.png";
-import { useTheme } from "../../../04-feture/SETTINGS/useTheme";
+import { useTheme } from "../../../04-feature/SETTINGS/useTheme";
 
 const Subsection = styled.div`
   background-color: var(--color-over);

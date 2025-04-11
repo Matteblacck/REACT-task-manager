@@ -235,15 +235,33 @@ table {
      scroll-behavior: auto !important;
    }
  }
+/* Скрытие скроллбаров для Webkit-браузеров (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 
+/* Для Firefox */
+* {
+  scrollbar-width: none; /* скрывает скроллбар */
+  -ms-overflow-style: none; /* IE и Edge */
+}
+
+/* Альтернативный способ скрыть скроллбар у контейнеров */
+.scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
 /* themes */
 :root {
-  /* Основные цвета */
-  --color-bg: #ffffff;          /* Белый фон */
-  --color-text: #000000;        /* Чёрный текст */
-  --color-accent: #ff9800;      /* Оранжевый акцент (как в тёмной) */
-  --color-minor: #757575;       /* Серый для второстепенного текста */
-  --color-over: #efefef;        /* Светло-серый фон для элементов */
+  --color-bg: #eaeaea;          /* Светло-серый фон, ближе к "бумажному" */
+  --color-text: #2a2a2a;        /* Глубокий тёмно-серый */
+  --color-accent: #c28c00;      /* Более тёплое и спокойное золото */
+  --color-minor: #666666;       /* Мягкий серый для второстепенного текста */
+  --color-over: #e0e0e0;        /* Приглушённый серый для карточек и фонов */
 
   /* Дополнительные цвета (аналоги тёмной темы) */
   --color-success: #4caf50;     /* Зелёный для успеха (чуть темнее, чем в тёмной) */

@@ -4,12 +4,12 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 import ContextMenu from "./ContextMenus/CardContextMenu";
 import Input from "../06-shared/Input";
 import CardElementModal from "./modals/CardElementModal/CardElementModal";
-import { useBoard } from "../04-feture/BOARD-CARD/useBoard";
+import { useBoard } from "../04-feature/BOARD-CARD/useBoard";
 import { CardProps } from "../05-entities/cardProps";
-import { useCardNameEdit } from "../04-feture/BOARD-CARD/card-features/useCardNameEdit";
-import { useCardElementModal } from "../04-feture/BOARD-CARD/card-features/useCardElementModal";
-import { useCardElementDelete } from "../04-feture/BOARD-CARD/card-features/useCardElementDelete";
-import { useCardElementAdd } from "../04-feture/BOARD-CARD/card-features/useCardElementAdd";
+import { useCardNameEdit } from "../04-feature/BOARD-CARD/card-features/useCardNameEdit";
+import { useCardElementModal } from "../04-feature/BOARD-CARD/card-features/useCardElementModal";
+import { useCardElementDelete } from "../04-feature/BOARD-CARD/card-features/useCardElementDelete";
+import { useCardElementAdd } from "../04-feature/BOARD-CARD/card-features/useCardElementAdd";
 
 const CrossIcon = () => (
   <svg

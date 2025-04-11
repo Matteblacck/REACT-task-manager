@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "../../../06-shared/Button";
 import { FaStickyNote } from "react-icons/fa";
 import PrioritySelector from "./components/PrioritySelector";
-import { useBoard } from "../../../04-feture/BOARD-CARD/useBoard";
+import { useBoard } from "../../../04-feature/BOARD-CARD/useBoard";
 
 // Стили
 const ModalOverlay = styled.div`
