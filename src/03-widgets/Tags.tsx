@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Button from '../06-shared/Button';
 import { FC } from 'react';
-import { tags } from '../05-entities/boardInterfaces';
+import { useGetTags } from '../04-feature/BOARD-CARD/board-features/useGetTags';
 //styled
 const TagsContainer = styled.div`
   display: flex;
@@ -16,6 +16,7 @@ type SelectedTagsProps = {
 };
 
 const Tags: FC<SelectedTagsProps> = ({ selectedTags, onToggleAdd }) => {
+  const tags = useGetTags()
   return (
     <TagsContainer>
       {tags.map((tag, index) => (

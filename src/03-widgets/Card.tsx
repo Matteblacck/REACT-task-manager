@@ -10,7 +10,9 @@ import { useCardNameEdit } from "../04-feature/BOARD-CARD/card-features/useCardN
 import { useCardElementModal } from "../04-feature/BOARD-CARD/card-features/useCardElementModal";
 import { useCardElementDelete } from "../04-feature/BOARD-CARD/card-features/useCardElementDelete";
 import { useCardElementAdd } from "../04-feature/BOARD-CARD/card-features/useCardElementAdd";
-
+import { useRef, useEffect } from "react";
+import '../06-shared/cardParams.css'
+import React from "react";
 const CrossIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -72,9 +74,9 @@ interface TasksListItemProps {
     $priority?: string; // Приоритет задачи (например, "high", "medium", "low")
   }
 const TasksListItem = styled.li<TasksListItemProps>`
-  font-size: 15px;
+  font-size: var(--card-borderRadius);
   background-color: transparent;
-  width: 330px;
+  width: calc(var(--card-width)-10px);
   border: 1.5px solid ${(props) => {
     switch (props.$priority) {
       case "high":
@@ -179,17 +181,23 @@ const TitleInput = styled(Input)`
   background-color: transparent;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
   padding: 0;
 `;
 
 
 
-export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
+function Card({ title,id, isAdding, toggleAdding }: CardProps) {
   //getting current board from redux with useBoard
   const board = useBoard()
   const boardId = board.id
   const card = board?.cards?.find((c) => c.id === id);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    if (isAdding && textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, [isAdding]);
 
   //--adding card elements
   const {
@@ -304,6 +312,7 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
 
       {isAdding && (
         <TextArea
+          ref={textAreaRef}
           value={newItem}
           onChange={(e) => setNewItem(e.target.value)}
           placeholder="Enter a task"
@@ -351,3 +360,4 @@ export default function Card({ title,id, isAdding, toggleAdding }: CardProps) {
   );
 }
 
+export default React.memo(Card);

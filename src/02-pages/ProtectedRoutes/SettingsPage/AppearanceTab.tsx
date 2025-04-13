@@ -76,6 +76,7 @@ export const AppearanceTab = () => {
     <div className="d-flex flex-column">
       <Subsection>
         <h5>Theme</h5>
+        <div>
         <ThemeContainer>
           <ThemeSelectItem 
             onClick={setLightTheme}
@@ -95,6 +96,8 @@ export const AppearanceTab = () => {
             </Image>
           </ThemeSelectItem>
         </ThemeContainer>
+        </div>
+        
       </Subsection>
     </div>
   );

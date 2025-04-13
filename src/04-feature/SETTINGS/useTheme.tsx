@@ -1,15 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../01-app/redux/store";
-import { setTheme } from "../../01-app/redux/slices/appearanceSlice"; // Импортируем actions из слайса
+import { setTheme } from "../../01-app/redux/slices/settings/appearanceSlice"; // Импортируем actions из слайса
 import { RootState } from "../../01-app/redux/store";
 
 export const useTheme = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const theme = useSelector((state: RootState) => state.appearance.theme); // Получаем текущую тему из редукса
+  const theme = useSelector((state: RootState) => state.settings.appearance.theme); // Получаем текущую тему из редукса
 
   // Сохранение темы в localStorage и настройка атрибута data-theme
   const saveTheme = (theme: 'light' | 'dark') => {
-    localStorage.setItem('theme', theme); // Сохраняем тему в localStorage
+    // Сохраняем раздел settings в localStorage, если его нет
+    const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+    settings.theme = theme;
+    localStorage.setItem('settings', JSON.stringify(settings)); // Сохраняем раздел settings
     document.documentElement.setAttribute('data-theme', theme); // Устанавливаем атрибут на root
   };
 

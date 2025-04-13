@@ -12,10 +12,11 @@ import {
 } from 'redux-persist';
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-
 import authReducer from './slices/userSlice';
 import boardsReducer from './slices/boardsSlice';
-import appearanceSlice from './slices/appearanceSlice';
+import appearanceSlice from './slices/settings/appearanceSlice';
+import tagsCustomizationSlice from './slices/settings/tagsCustomizationSlice';
+import cardCustomizationSlice from "./slices/settings/cardCustomizationSlice";
 
 // Transform для auth и boards
 const readableTransform = createTransform(
@@ -30,7 +31,6 @@ const readableTransform = createTransform(
   },
   { whitelist: ['auth', 'boards'] }
 );
-
 // persist конфиги
 const authPersistConfig = {
   key: 'auth',
@@ -43,13 +43,18 @@ const boardsPersistConfig = {
   storage,
   transforms: [readableTransform],
 };
+const settingsReducer = combineReducers({
+  appearance: appearanceSlice,
+  tagsCustomization: tagsCustomizationSlice,
+  cardCustomization: cardCustomizationSlice,
+});
 
-// rootReducer без persist для appearance
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   boards: persistReducer(boardsPersistConfig, boardsReducer),
-  appearance: appearanceSlice, // обычный reducer
+  settings: settingsReducer, // <- теперь всё под settings
 });
+
 
 export const store = configureStore({
   reducer: rootReducer,

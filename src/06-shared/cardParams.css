@@ -1,0 +1,25 @@
+:root {
+    /* width */
+    --card-width: 350px;
+  
+    --card-width-compact: 300px;
+    --card-width-medium: 350px;
+    --card-width-wide: 450px;
+
+    /* font size */
+    --card-fontSize: 15px;
+
+    --card-fontSize-small: 13px;
+    --card-fontSize-medium: 15px;
+    --card-fontSize-large: 17px;
+
+    /* border */
+    --card-borderRadius: 15px;
+
+    --card-borderRadius-square: 0px;  
+    --card-borderRadius-soft: 8px;     /* мягкие углы */
+    --card-borderRadius-medium: 15px;  /* средние углы (по умолчанию) */
+    --card-borderRadius-round: 25px;   /* скруглённые углы */
+    
+    
+  }

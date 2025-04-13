@@ -56,7 +56,7 @@ const ContentArea = styled.div`
 `;
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('notifications');
+  const [activeTab, setActiveTab] = useState('boards');
 
   const renderContent = () => {
     switch (activeTab) {
@@ -69,7 +69,7 @@ export default function SettingsPage() {
       case 'language':
         return <div>Язык и регион</div>;
       default:
-        return <div>Выберите раздел настроек</div>;
+        return <BoardsTab/>;
     }
   };
 

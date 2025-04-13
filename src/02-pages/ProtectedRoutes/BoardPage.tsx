@@ -19,6 +19,7 @@ import { useBoardNameEdit } from "../../04-feature/BOARD-CARD/board-features/use
 import { useCardElements } from "../../04-feature/BOARD-CARD/card-features/useCardElements";
 import { useCards } from "../../04-feature/BOARD-CARD/card-features/useCards";
 import { useAddCard } from "../../04-feature/BOARD-CARD/board-features/addCard";
+import '../../06-shared/cardParams.css'
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -291,8 +292,8 @@ export default function BoardPage() {
                         {...provided.dragHandleProps}
                         style={{
                           ...provided.draggableProps.style,
-                          minWidth: "350px",
-                          borderRadius: "8px",
+                          minWidth: "var(--card-width)",
+                          borderRadius: "var(--card-borderRadius)",
                           padding: "10px",
                           height: "fit-content",
                         }}

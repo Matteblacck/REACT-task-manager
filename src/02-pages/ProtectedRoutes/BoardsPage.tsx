@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Board } from "../../05-entities/boardInterfaces";
 import Input from "../../06-shared/Input";
 import CreateBoardModal from "../../03-widgets/modals/CreateBoardModal";
-import { tags } from "../../05-entities/boardInterfaces";
+import { useGetTags } from "../../04-feature/BOARD-CARD/board-features/useGetTags";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -211,11 +211,14 @@ const DeleteButton = styled(Button)`
 
 export default function BoardsPage() {
   const dispatch = useDispatch<AppDispatch>();
+
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   // Получаем доски
   const boards = useSelector(
     (state: { boards: { boards: Board[] } }) => state.boards.boards
   );
+  //получаеа теги
+  const tags = useGetTags()
 
   //--delete
   const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
