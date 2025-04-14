@@ -12,6 +12,7 @@ import { Board } from "../../05-entities/boardInterfaces";
 import Input from "../../06-shared/Input";
 import CreateBoardModal from "../../03-widgets/modals/CreateBoardModal";
 import { useGetTags } from "../../04-feature/BOARD-CARD/board-features/useGetTags";
+import Select from "../../06-shared/Select";
 // Анимации для фона
 const floatAnimation = keyframes`
   0% { transform: translateY(0) translateX(0) rotate(0deg); }
@@ -211,14 +212,23 @@ const DeleteButton = styled(Button)`
 
 export default function BoardsPage() {
   const dispatch = useDispatch<AppDispatch>();
-
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   // Получаем доски
   const boards = useSelector(
     (state: { boards: { boards: Board[] } }) => state.boards.boards
   );
   //получаеа теги
-  const tags = useGetTags()
+  const tags = useGetTags();
+  const [selectedTag, setSelectedTag] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "none") {
+      setSelectedTag("");
+    } else {
+      setSelectedTag(value);
+    }
+  };
 
   //--delete
   const [boardToDelete, setBoardToDelete] = useState<string | null>(null);
@@ -261,6 +271,17 @@ export default function BoardsPage() {
                 <Button onClick={() => setIsCreateModalOpen(true)}>
                   New board
                 </Button>
+                <Select value={selectedTag} onChange={handleChange}>
+                  <option value="" disabled hidden>
+                    Filter by
+                  </option>
+                  <option value="none">None</option>
+                  {tags.map((tag) => (
+                    <option key={tag.name} value={tag.name}>
+                      {tag.name}
+                    </option>
+                  ))}
+                </Select>
                 <Input
                   placeholder="Search..."
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -270,10 +291,18 @@ export default function BoardsPage() {
             <BoardsList>
               {boards && boards.length > 0 ? (
                 boards
+                  .filter((board) => {
+                    // Если выбран тег "none" или нет тега, не применяем фильтрацию по тегам
+                    if (selectedTag === "none" || !selectedTag) {
+                      return true; // Возвращаем все доски
+                    }
+                    // Фильтруем по тегам, если выбран другой тег
+                    return board.tags?.includes(selectedTag);
+                  })
                   .filter(
-                    (bordTitle) =>
-                      bordTitle == null ||
-                      bordTitle.name
+                    (boardTitle) =>
+                      boardTitle == null ||
+                      boardTitle.name
                         .toLowerCase()
                         .includes(searchQuery.toLowerCase())
                   )
@@ -285,8 +314,8 @@ export default function BoardsPage() {
                     >
                       <div>
                         <div className="d-flex align-items-center gap-2">
-                          <div >
-                          <h3 style={{ fontSize: "22px" }}>{board.name}</h3>
+                          <div>
+                            <h3 style={{ fontSize: "22px" }}>{board.name}</h3>
                           </div>
                           <div className="d-flex pb-1">
                             {board.tags?.map((tagName) => {

@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { useSelector } from "react-redux";
 import StyledLink from "../../06-shared/StyledLink";
 import { Board } from "../../05-entities/boardInterfaces";
+import { RootState } from "../../01-app/redux/store";
 
 // Анимации для фона
 const floatAnimation = keyframes`
@@ -102,22 +103,29 @@ const Sunburst = styled(BackgroundElement)`
   animation: ${pulseAnimation} 5s infinite ease-in-out;
 `;
 
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 // Стили для контента
 const SectionTitle = styled.h1`
   font-size: 23px;
   color: #ff9800;
+  margin-bottom: 10px;
 `;
 
 const WorkspacesItem = styled(StyledLink)`
   border: 1px solid var(--color-minor);
   padding: 15px;
+  font-size: 21px;
   background-color: var(--color-bg);
-  padding: 15px;
   margin-bottom: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   z-index: 2;
+
+  animation: ${fadeIn} 0.4s ease-out forwards;
 
   &:hover {
     background-color: var(--color-over);
@@ -138,6 +146,63 @@ const WorkspacesItem = styled(StyledLink)`
   }
 `;
 
+
+const pulse = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(100, 108, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(100, 108, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(100, 108, 255, 0); }
+`;
+
+const SettingsList = styled.div`
+  background: var(--color-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  animation: ${fadeIn} 0.4s ease-out forwards;
+  max-width: 480px;
+  margin: 0 auto;
+  
+  &:hover {
+    border-color: var(--color-accent);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+`;
+
+const SettingItem = styled.h3`
+  color: var(--color-text);
+  font-size: 21px;
+  font-weight: 600;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  border: 1px solid var(--color-minor);
+  padding: 15px;
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  &::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    animation: ${pulse} 2s infinite;
+  }
+  
+  &:hover {
+    &::before {
+      transform: scale(1.3);
+      transition: transform 0.2s ease;
+    }
+  }
+`;
+
+
+// Пример использования:
+
+
 const UsersWorkspaces = styled.div``;
 const SomeInfoContainer1 = styled.div``;
 const SomeInfoContainer2 = styled.div``;
@@ -146,7 +211,7 @@ export default function DashboardPage() {
   const boards = useSelector(
     (state: { boards: { boards: Board[] } }) => state.boards.boards
   );
-
+  const cardParams = useSelector((state: RootState) => state.settings.cardCustomization);
   return (
     <>
       <MainContainer>
@@ -160,7 +225,7 @@ export default function DashboardPage() {
           <div className="row">
             {/* Контент */}
             <UsersWorkspaces className="col-4 d-flex flex-column" >
-              <SectionTitle>Your workspaces</SectionTitle>
+              <SectionTitle>Your workspaces:</SectionTitle>
               <div className='d-flex flex-column' style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               {boards && boards.length > 0 ? (
                 boards.map((board) => (
@@ -174,12 +239,21 @@ export default function DashboardPage() {
               
             </UsersWorkspaces>
             <SomeInfoContainer1 className="col-4">
-              <SectionTitle>Content</SectionTitle>
-              <div>
-                <div>Some info 1</div>
-                <div>Some info 2</div>
-                <div>Some info 3</div>
-              </div>
+              <SectionTitle>Your actual card configuration:</SectionTitle>
+              <SettingsList>
+                <SettingItem>
+                  Width: {cardParams.cardWidth}
+                </SettingItem>
+                <SettingItem>
+                  Text size: {cardParams.cardFontSize}
+                </SettingItem>
+                <SettingItem>
+                  Border style: {cardParams.cardBorderRadius}
+                </SettingItem>
+                <SettingItem>
+                  Border color: {cardParams.cardBorderColor}
+                </SettingItem>
+              </SettingsList>
             </SomeInfoContainer1>
             <SomeInfoContainer2 className="col-4">
               <SectionTitle>Content</SectionTitle>

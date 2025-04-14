@@ -21,7 +21,7 @@ const SectionTitle = styled.h4`
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
   position: relative;
-  
+
   &::after {
     content: "";
     position: absolute;
@@ -33,13 +33,16 @@ const SectionTitle = styled.h4`
     border-radius: 3px;
   }
 `;
-const TagItem = styled.div`
+
+const TagItem = styled.div<{ $color: string }>`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  background-color: var(--color-over);
+  border: 2px solid ${({ $color }) => $color};
   border-radius: 10px;
   padding: 5px 10px;
+  background-color: ${({ $color }) => $color};
+  color: var(--color-bg);
   position: relative;
   transition: all 0.2s ease-in-out;
   opacity: 1;
@@ -47,6 +50,10 @@ const TagItem = styled.div`
   &:hover {
     padding-right: 30px;
     cursor: pointer;
+  }
+
+  span {
+    color: var(--color-bg);
   }
 `;
 
@@ -57,7 +64,7 @@ const DeleteButton = styled.button`
   transform: translateY(-50%);
   background-color: transparent;
   border: none;
-  color: var(--color-minor);
+  color: var(--color-bg);
   font-size: 16px;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -109,22 +116,15 @@ export const TagsSection = () => {
       <SectionTitle className="pb-3">Tags customization</SectionTitle>
       <TagsContainer className="d-flex gap-1 text-wrap">
         {tags.map((tag) => (
-          <TagItem key={tag.name}
+          <TagItem
+            key={tag.name}
+            $color={tag.color}
             style={{
               opacity: deletedTags.includes(tag.name) ? 0 : 1,
               transform: deletedTags.includes(tag.name) ? "translateX(20px)" : "translateX(0)",
               transition: "all 0.3s ease-in-out",
             }}
           >
-            <div
-              style={{
-                backgroundColor: tag.color,
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                marginRight: "5px",
-              }}
-            />
             <span>{tag.name}</span>
             <DeleteButton onClick={() => handleSmoothDelete(tag.name)}>&#10005;</DeleteButton>
           </TagItem>
@@ -149,13 +149,8 @@ export const TagsSection = () => {
           </div>
 
           <div className="d-flex justify-content-between">
-            <StyledButton onClick={() => setIsTagAdding(false)}>
-              Cancel
-            </StyledButton>
-            <StyledButton
-              onClick={handleAddNewTag}
-              disabled={!newTagName.trim()}
-            >
+            <StyledButton onClick={() => setIsTagAdding(false)}>Cancel</StyledButton>
+            <StyledButton onClick={handleAddNewTag} disabled={!newTagName.trim()}>
               Add Tag
             </StyledButton>
           </div>

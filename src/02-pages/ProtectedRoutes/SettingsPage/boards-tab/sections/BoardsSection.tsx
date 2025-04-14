@@ -50,7 +50,7 @@ const ControlGroup = styled.div`
 `;
 
 const ControlLabel = styled.h3`
-  font-size: 1rem;
+  font-size: 18px;
   font-weight: 500;
   color: var(--color-text-secondary);
   margin: 0;
@@ -64,7 +64,7 @@ const ParSelect = styled.select`
   border: 1px solid var(--color-minor);
   border-radius: 6px;
   padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--color-text);
   margin-left: 0.75rem;
   min-width: 120px;
@@ -116,7 +116,7 @@ export function BoardsSection() {
     <>
       <SectionTitle className="pb-3">Card customization</SectionTitle>
       <ControlsWrapper className="d-flex flex-column">
-        <ControlsRow className="d-flex gap-4 flex-wrap content-align-center">
+        <ControlsRow className="d-flex gap-3 flex-wrap content-align-center">
           {/* Ширина карточки */}
           <ControlGroup className="d-flex align-items-center">
             <ControlLabel>Width:</ControlLabel>

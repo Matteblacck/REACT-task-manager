@@ -189,6 +189,7 @@ const StyledInput = styled(Input)`
   margin: 0;
 `
 const StyledTextarea = styled.textarea`
+  color: var(--color-text);
   width: 100%;
   min-height: 120px;
   padding: 12px;
