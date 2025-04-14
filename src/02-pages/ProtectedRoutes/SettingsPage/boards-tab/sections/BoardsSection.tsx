@@ -42,6 +42,7 @@ const ControlGroup = styled.div`
   align-items: center;
   border-radius: 8px;
   transition: all 0.2s ease;
+  padding: 8px;
 
   &:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -113,7 +114,7 @@ export function BoardsSection() {
 
   return (
     <>
-      <SectionTitle className="pb-3">Board customization</SectionTitle>
+      <SectionTitle className="pb-3">Card customization</SectionTitle>
       <ControlsWrapper className="d-flex flex-column">
         <ControlsRow className="d-flex gap-4 flex-wrap content-align-center">
           {/* Ширина карточки */}
