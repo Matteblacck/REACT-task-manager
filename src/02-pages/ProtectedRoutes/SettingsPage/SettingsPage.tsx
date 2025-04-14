@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { FaTable, FaLock, FaPalette, FaLanguage, FaSignOutAlt } from "react-icons/fa";
-import { BoardsTab } from "./BoardsTab";
+import { FaTable,FaPalette, FaSignOutAlt } from "react-icons/fa";
+import { BoardsTab } from "./boards-tab/BoardsTab";
 import { AppearanceTab } from "./AppearanceTab";
 
 
@@ -62,12 +62,8 @@ export default function SettingsPage() {
     switch (activeTab) {
       case 'boards':
         return <BoardsTab/>;
-      case 'security':
-        return <div>Безопасность</div>;
       case 'appearance':
         return <AppearanceTab/>;
-      case 'language':
-        return <div>Язык и регион</div>;
       default:
         return <BoardsTab/>;
     }
@@ -88,13 +84,6 @@ export default function SettingsPage() {
                 <span>Boards</span>
               </NavItem>
               
-              <NavItem 
-                $active={activeTab === 'security'} 
-                onClick={() => setActiveTab('security')}
-              >
-                <NavIcon><FaLock /></NavIcon>
-                <span>Security</span>
-              </NavItem>
               
               <NavItem 
                 $active={activeTab === 'appearance'} 
@@ -104,13 +93,6 @@ export default function SettingsPage() {
                 <span>Appearance</span>
               </NavItem>
               
-              <NavItem 
-                $active={activeTab === 'language'} 
-                onClick={() => setActiveTab('language')}
-              >
-                <NavIcon><FaLanguage /></NavIcon>
-                <span>Language</span>
-              </NavItem>
               
               <div className="mt-4 pt-3 border-top">
                 <NavItem 

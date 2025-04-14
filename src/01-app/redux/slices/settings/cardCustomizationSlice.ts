@@ -1,23 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CardParams, defaultCardParams } from '../../../../05-entities/cardProps';
 
-// Функция для обновления localStorage с сохранением cardParams
+const SETTINGS_KEY = 'settings';
+
+const getSettingsFromLocalStorage = (): Partial<{ cardParams: CardParams }> => {
+  try {
+    return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+
 const updateLocalStorage = (cardParams: CardParams) => {
-  const savedSettings = JSON.parse(localStorage.getItem('settings') || '{}');
-  localStorage.setItem('settings', JSON.stringify({
+  const savedSettings = getSettingsFromLocalStorage();
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify({
     ...savedSettings,
-    cardParams
+    cardParams,
   }));
 };
 
-const initialState: CardParams = (() => {
-  // Инициализация из localStorage при создании слайса
-  const savedSettings = JSON.parse(localStorage.getItem('settings') || '{}');
-  return {
-    ...defaultCardParams,
-    ...(savedSettings.cardParams || {})
-  };
-})();
+const initialState: CardParams = {
+  ...defaultCardParams,
+  ...(getSettingsFromLocalStorage().cardParams || {}),
+};
 
 export const cardCustomizationSlice = createSlice({
   name: 'cardCustomization',
@@ -25,12 +30,15 @@ export const cardCustomizationSlice = createSlice({
   reducers: {
     setCardParams: (state, action: PayloadAction<Partial<CardParams>>) => {
       const updated = { ...state, ...action.payload };
-      updateLocalStorage(updated); // сохраняем обновлённые параметры
+      updateLocalStorage(updated);
       return updated;
     },
   },
 });
 
 export const { setCardParams } = cardCustomizationSlice.actions;
-export const selectCardParams = (state: { cardCustomization: CardParams }) => state.cardCustomization;
+
+export const selectCardParams = (state: { cardCustomization: CardParams }) =>
+  state.cardCustomization;
+
 export default cardCustomizationSlice.reducer;

@@ -8,7 +8,25 @@ const Subsection = styled.div`
   border-radius: 15px;
   padding: 20px;
 `;
-
+const SectionTitle = styled.h4`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 3px;
+  }
+`;
 const ThemeContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -75,7 +93,7 @@ export const AppearanceTab = () => {
   return (
     <div className="d-flex flex-column">
       <Subsection>
-        <h5>Theme</h5>
+        <SectionTitle>Theme</SectionTitle>
         <div>
         <ThemeContainer>
           <ThemeSelectItem 

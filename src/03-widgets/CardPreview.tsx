@@ -3,7 +3,7 @@ import Button from "../06-shared/Button";
 import '../06-shared/cardParams.css'
 
 const CardColumn = styled.div`
-  border: 1px solid #ff9800;
+  border: 1px solid var(--card-borderColor);
   border-radius: var(--card-borderRadius);
   height: fit-content;
   padding: 15px;

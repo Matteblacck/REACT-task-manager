@@ -39,8 +39,8 @@ const fadeOut = keyframes`
 `;
 
 const CardColumn = styled.div`
-  border: 1px solid #ff9800;
-  border-radius: 15px;
+  border: 1px solid var(--card-borderColor);
+  border-radius: var(--card-borderRadius);
   height: fit-content;
   padding: 15px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
@@ -74,7 +74,7 @@ interface TasksListItemProps {
     $priority?: string; // Приоритет задачи (например, "high", "medium", "low")
   }
 const TasksListItem = styled.li<TasksListItemProps>`
-  font-size: var(--card-borderRadius);
+  font-size: var(--card-fontSize);
   background-color: transparent;
   width: calc(var(--card-width)-10px);
   border: 1.5px solid ${(props) => {
