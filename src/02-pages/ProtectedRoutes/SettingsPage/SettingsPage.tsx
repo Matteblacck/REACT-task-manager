@@ -47,12 +47,21 @@ const NavIcon = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 const ContentArea = styled.div`
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 20px;
   height: 100%;
+  max-height: 95vh; // Ограничиваем максимальную высоту
+  overflow-y: auto; // Добавляем вертикальный скролл при необходимости
+  
+  // Убираем скроллбар в Firefox
+  scrollbar-width: none;
+  
+  // Убираем скроллбар в Chrome/Safari
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default function SettingsPage() {
