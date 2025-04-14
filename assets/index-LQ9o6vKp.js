@@ -1746,4 +1746,14 @@ background-color: transparent;
   border-radius: 10px;
   padding: 20px;
   height: 100%;
+  max-height: 95vh; // Ограничиваем максимальную высоту
+  overflow-y: auto; // Добавляем вертикальный скролл при необходимости
+  
+  // Убираем скроллбар в Firefox
+  scrollbar-width: none;
+  
+  // Убираем скроллбар в Chrome/Safari
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;function P9(){const[e,n]=C.useState("boards"),a=()=>{switch(e){case"boards":return b.jsx(Rx,{});case"appearance":return b.jsx(U9,{});default:return b.jsx(Rx,{})}};return b.jsx($9,{children:b.jsx("div",{className:"container-fluid h-100",children:b.jsxs("div",{className:"row h-100",children:[b.jsx("div",{className:"col-md-3",style:{borderRight:"1px solid #d2d1d1"},children:b.jsxs(F9,{children:[b.jsxs(Op,{$active:e==="boards",onClick:()=>n("boards"),children:[b.jsx(_p,{children:b.jsx(TS,{})}),b.jsx("span",{children:"Boards"})]}),b.jsxs(Op,{$active:e==="appearance",onClick:()=>n("appearance"),children:[b.jsx(_p,{children:b.jsx(ZO,{})}),b.jsx("span",{children:"Appearance"})]}),b.jsx("div",{className:"mt-4 pt-3 border-top",children:b.jsxs(Op,{$active:!1,onClick:()=>{},children:[b.jsx(_p,{children:b.jsx(KO,{})}),b.jsx("span",{children:"Log out"})]})})]})}),b.jsx("div",{className:"col-md-9",children:b.jsx(H9,{children:a()})})]})})})}const I9=J5([{path:"/",element:b.jsx(U_,{}),children:[{index:!0,element:b.jsx(bO,{})},{element:b.jsx($_,{}),children:[{path:"/dashboard",element:b.jsx(kO,{})},{path:"/profile",element:b.jsx(s_,{})},{path:"/boards",element:b.jsx(gR,{})},{path:"/boards/board/:id",element:b.jsx(Jj,{})},{path:"/settings",element:b.jsx(P9,{})}]}]}],{basename:"/REACT-task-manager"});uC.createRoot(document.getElementById("root")).render(b.jsx(C.StrictMode,{children:b.jsx(i2,{store:_2,children:b.jsx(K0,{loading:null,persistor:R2,children:b.jsx(dD,{router:I9})})})}));
